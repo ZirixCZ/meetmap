@@ -1,7 +1,7 @@
 > Won third place on the Hradec Králové Hackathon organised by UHK.
 
 # FriendsHK
-Application that lets you plan trips, share them with friends and have a great time. Powered by [Data KHK](https://www.datakhk.cz/).
+Application lets you plan trips, share them with friends and have a great time. Powered by [Data KHK](https://www.datakhk.cz/).
 
 ### Homepage
 
@@ -14,7 +14,7 @@ Application that lets you plan trips, share them with friends and have a great t
 ### Meetup creation
 
 
-<img width="341" alt="Screenshot 2024-10-17 at 22 48 07" src="https://github.com/user-attachments/assets/f86598bd-d2c0-4acc-a29d-b867bebde863">
+<img width="348" alt="Screenshot 2024-10-17 at 22 59 08" src="https://github.com/user-attachments/assets/2d763feb-f61d-439c-9233-414bb21f73c0">
 
 > Basic info
 
@@ -29,6 +29,11 @@ Application that lets you plan trips, share them with friends and have a great t
 <img width="334" alt="Screenshot 2024-10-17 at 22 49 21" src="https://github.com/user-attachments/assets/93ddaa91-a835-40fc-aff9-b5668bb784fc">
 
 > Selecting places to visit
+
+### Place overview
+
+<img width="684" alt="Screenshot 2024-10-17 at 23 01 17" src="https://github.com/user-attachments/assets/e50dcb61-5cec-4736-a829-5fd6def14bfe">
+<img width="685" alt="Screenshot 2024-10-17 at 23 02 11" src="https://github.com/user-attachments/assets/909a7292-0590-4c16-9c54-7c8170f4fdc3">
 
 ### Proof of concept:
 
