@@ -7,11 +7,8 @@ import Root from "./routes/root";
 import AuthDialogRoute from "./routes/authDialog";
 import SearchOverlayRoute from "./routes/searchOverlay";
 import RegisterDialogRoute from "./routes/registerDialog";
-<<<<<<< Updated upstream
 import { UserContextProvider } from "./components/UserContextProvider/UserContextProvider";
-=======
 import AdminRoute from "./routes/admin";
->>>>>>> Stashed changes
 
 const router = createBrowserRouter([
   {
