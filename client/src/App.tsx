@@ -7,6 +7,7 @@ import Root from "./routes/root";
 import AuthDialogRoute from "./routes/authDialog";
 import SearchOverlayRoute from "./routes/searchOverlay";
 import RegisterDialogRoute from "./routes/registerDialog";
+import { UserContextProvider } from "./components/UserContextProvider/UserContextProvider";
 
 const router = createBrowserRouter([
   {
@@ -38,16 +39,18 @@ const router = createBrowserRouter([
         path: "auth/register",
         element: <RegisterDialogRoute />,
         errorElement: <ErrorRoute />,
-      }
+      },
     ],
   },
 ]);
 
 function App() {
   return (
-    <LeafletProvider>
-      <RouterProvider router={router} />
-    </LeafletProvider>
+    <UserContextProvider value={null}>
+      <LeafletProvider>
+        <RouterProvider router={router} />
+      </LeafletProvider>
+    </UserContextProvider>
   );
 }
 
