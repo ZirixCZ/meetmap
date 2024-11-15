@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomeRoute from "./routes/home";
+
 import ErrorRoute from "./routes/error";
 import { LeafletProvider } from "./components/Leaflet/context/LeafletContext";
 import MapRoute from "./routes/map";
@@ -7,7 +7,11 @@ import Root from "./routes/root";
 import AuthDialogRoute from "./routes/authDialog";
 import SearchOverlayRoute from "./routes/searchOverlay";
 import RegisterDialogRoute from "./routes/registerDialog";
+<<<<<<< Updated upstream
 import { UserContextProvider } from "./components/UserContextProvider/UserContextProvider";
+=======
+import AdminRoute from "./routes/admin";
+>>>>>>> Stashed changes
 
 const router = createBrowserRouter([
   {
@@ -17,7 +21,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomeRoute />,
+        element: <MapRoute />,
+        errorElement: <ErrorRoute />,
+      },
+      {
+        path: "admin",
+        element: <AdminRoute />,
         errorElement: <ErrorRoute />,
       },
       {

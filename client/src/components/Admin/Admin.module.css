@@ -1,0 +1,106 @@
+.container {
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.goBack {
+  color: blue;
+  font-style: italic;
+}
+
+h1 {
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 2rem;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: #555;
+  font-size: 1.2rem;
+}
+
+.table {
+  width: 100%;
+  max-width: 80rem;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  background-color: #fff;
+  box-shadow: 0rem 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+  padding: 1.2rem;
+  text-align: left;
+  border: 0.1rem solid #ddd;
+}
+
+.table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.deleteButton {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.deleteButton:hover {
+  background-color: #c0392b;
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 768px) {
+  .table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .table th,
+  .table td {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .deleteButton {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
