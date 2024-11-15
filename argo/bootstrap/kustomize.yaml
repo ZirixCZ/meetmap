@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kustomize-apps
+spec:
+  generators:
+   - git:
+       repoURL: https://github.com/Jindra-Dev04/k8s-personal
+       revision: HEAD
+       directories:
+         - path: kustomize/* 
+  template:
+    metadata:
+      name: '{{path.basename}}'
+      annotations:
+        "argocd.argoproj.io/manifest-generate-paths": "{{path}}"
+    spec:
+      project: iris-tech
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          prune: true
+          selfHeal: true
+      source:
+        repoURL: https://github.com/Jindra-Dev04/k8s-personal
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd

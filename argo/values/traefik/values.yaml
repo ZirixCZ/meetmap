@@ -1,0 +1,40 @@
+globalArguments:
+  - "--providers.kubernetescrd"
+  - "--providers.kubernetesingress"
+  - "--entrypoints.web.address=:80"
+  - "--entrypoints.websecure.address=:443"
+
+ports:
+  web:
+    port: 80
+  websecure:
+    port: 443
+    tls:
+      enabled: true # Enable TLS for HTTPS
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true # Make Traefik the default ingress controller
+
+accessLogs:
+  enabled: true # Enable access logs for troubleshooting
+
+logs:
+  level: INFO # Logging level
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "500m"
+    memory: "256Mi"
+
+dashboard:
+  enabled: true
+  ingressRoute:
+    enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    domain: "dashboard.example.com" # Change to your domain
+

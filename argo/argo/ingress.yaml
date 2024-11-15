@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: friendspce-argo-ingress
+  namespace: argocd
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: Host(`172.20.10.4`) # Match based on IP only
+    priority: 10
+    services:
+    - name: argocd-server
+      port: 80 # Use 80 for HTTP if HTTPS isn't set up
+# service/argocd-server ClusterIP 10.245.170.5 <none> 80/TCP,443/TCP 13d
+

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+data:
+  resource.exclusions: |
+   - apiGroups:
+       - cilium.io
+     kinds:
+       - CiliumIdentity
+     clusters:
+       - "*"
+  url: https://argo.jindrich-jakubicka.cz
+  dex.config: |
+    connectors:
+    - type: github
+      id: github
+      name: GitHub
+      config:
+        clientID: 0d29c6d0984e7d602fef
+        clientSecret: $dex.github.clientSecret
+        orgs:
+        - name: gamabe-iris-tech

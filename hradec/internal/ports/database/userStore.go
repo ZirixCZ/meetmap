@@ -111,6 +111,34 @@ func (uds *UserDatabaseStore) GetUsersByUsernamePattern(ctx context.Context, use
 	return result, nil
 }
 
+type userInvites struct {
+	model.Users
+	model.Meetups
+	model.UserMeetups
+}
+
+func (udbs *UserDatabaseStore) GetInvites(ctx context.Context, userId int64) error {
+	stmt := table.UserMeetups.SELECT(table.UserMeetups.AllColumns, table.Meetups.AllColumns, table.Users.AllColumns).
+		FROM(
+			table.UserMeetups.LEFT_JOIN(
+				table.Meetups,
+				table.Meetups.ID.EQ(table.UserMeetups.MeetupID),
+			).LEFT_JOIN(
+				table.Users,
+				table.Users.ID.EQ(table.Meetups.UserID),
+			),
+		).WHERE(table.UserMeetups.UserID.EQ(postgres.Int(userId)))
+
+	dest := []userInvites{}
+
+	err := stmt.QueryContext(ctx, udbs.DB, &dest)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func mapUserFromDB(usr model.Users) (*domain.User, error) {
 	return &domain.User{
 		ID:             int64(usr.ID),

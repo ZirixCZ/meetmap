@@ -1,0 +1,9 @@
+tls:
+  certificatesResolvers:
+    letsencrypt:
+      acme:
+        email: infrastructure@nextap.eu
+        storage: /data/acme.json
+        httpChallenge:
+          entryPoint: web
+

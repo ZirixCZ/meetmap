@@ -13,7 +13,9 @@ func UseSchema(schema string) {
 	CollectionPlaces = CollectionPlaces.FromSchema(schema)
 	Collections = Collections.FromSchema(schema)
 	GooseDbVersion = GooseDbVersion.FromSchema(schema)
+	Meetups = Meetups.FromSchema(schema)
 	Places = Places.FromSchema(schema)
 	SpatialRefSys = SpatialRefSys.FromSchema(schema)
+	UserMeetups = UserMeetups.FromSchema(schema)
 	Users = Users.FromSchema(schema)
 }

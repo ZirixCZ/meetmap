@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argocd
+
+# additional resources like ingress rules, cluster and repository secrets.
+resources:
+- github.com/argoproj/argo-cd//manifests/cluster-install?ref=v2.8.4
+- bootstrap.yaml
+- project.yaml
+- repository.yaml
+- namespace.yaml
+- ingress.yaml
+
+patches:
+- path: argocd-cm.yaml
+- path: argocd-cmd.yaml
+- path: argocd-rbac-cm.yaml
