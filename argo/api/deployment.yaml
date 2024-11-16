@@ -15,7 +15,7 @@ spec:
         app: friendmapper-api
     spec:
       initContainers:
-        - name: hradec-hac-api
+        - name: hradec-hac-api-migrations
           image: espeletia/hradec_hac_api
           command: ["/app/run_migrations"]
           env:
