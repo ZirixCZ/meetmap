@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: friendmapper-api
+  labels:
+    app: friendmapper-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: friendmapper-api
+  template:
+    metadata:
+      labels:
+        app: friendmapper-api
+    spec:
+      initContainers:
+        - name: hradec_hac_api
+          image: espeletia/hradec_hac_api
+          command: ["/app/run_migrations"]
+          env:
+            - name: SERVICE_NAME
+              value: hradec-migrations
+            - name: DATABASE_URL
+              value: "postgres://my_user:VNeq3FTkfNyWVv0R@10.128.40.248:5432/my_database?sslmode=disable"
+      containers:
+        - name: hradec_hac_api
+          image: espeletia/hradec_hac_api
+          ports:
+            - containerPort: 8080
+          env:
+            - name: HRADEC_PORT
+              value: "8080"
+            - name: SERVICE_NAME
+              value: hradec
+            - name: DATABASE_URL
+              value: "postgres://postgres:postgres@10.128.40.248:5432/hradec?sslmode=disable"
+            - name: ENABLE_FILE_LOGGER
+              value: "true"
+            - name: ENABLE_DEBUG_LOGGER
+              value: "false"
+            - name: FILE_LOG_OUTPUT
+              value: "stdout"
+
