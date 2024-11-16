@@ -11,5 +11,5 @@ spec:
   project: iris-tech
   source:
     path: bootstrap
-    repoURL: https://github.com/Jindra-Dev04/k8s-personal
+    repoURL: https://github.com/espeletia/friendmapper
     targetRevision: HEAD
