@@ -22,7 +22,10 @@ spec:
             - name: SERVICE_NAME
               value: hradec-migrations
             - name: DATABASE_URL
-              value: "postgres://my_user:VNeq3FTkfNyWVv0R@10.128.40.248:5432/my_database?sslmode=disable"
+              valueFrom:
+                secretKeyRef:
+                  name: hradec-database-secret
+                  key: DATABASE_URL
       containers:
         - name: hradec-hac-api
           image: espeletia/hradec_hac_api
@@ -34,7 +37,10 @@ spec:
             - name: SERVICE_NAME
               value: hradec
             - name: DATABASE_URL
-              value: "postgres://postgres:postgres@10.128.40.248:5432/hradec?sslmode=disable"
+              valueFrom:
+                secretKeyRef:
+                  name: hradec-database-secret
+                  key: DATABASE_URL
             - name: ENABLE_FILE_LOGGER
               value: "true"
             - name: ENABLE_DEBUG_LOGGER
