@@ -15,7 +15,7 @@ spec:
         app: friendmapper-api
     spec:
       initContainers:
-        - name: hradec_hac_api
+        - name: hradec-hac-api
           image: espeletia/hradec_hac_api
           command: ["/app/run_migrations"]
           env:
@@ -24,7 +24,7 @@ spec:
             - name: DATABASE_URL
               value: "postgres://my_user:VNeq3FTkfNyWVv0R@10.128.40.248:5432/my_database?sslmode=disable"
       containers:
-        - name: hradec_hac_api
+        - name: hradec-hac-api
           image: espeletia/hradec_hac_api
           ports:
             - containerPort: 8080
