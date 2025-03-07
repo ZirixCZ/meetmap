@@ -162,7 +162,7 @@ const Leaflet = () => {
       <RightClickHandler onRightClick={handleRightClick} />
 
       {showPopup && rightClickPos.current && (
-        <Popup position={rightClickPos.current} eventHandlers={{ remove: () => rightClickPos.current = null }}>
+        <Popup position={rightClickPos.current} eventHandlers={{ remove: () => {rightClickPos.current = null; setShowPopup(false);} }}>
           <div>
             <p>Vytvořit meetup na tomto místě?</p>
             <CustomButton onClick={createMeetup} text="Vytvořit meetup"></CustomButton>

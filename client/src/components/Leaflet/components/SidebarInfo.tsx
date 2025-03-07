@@ -11,7 +11,7 @@ interface Props {
 
 const SidebarInfo = (props: Props) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onScroll={(e) => e.stopPropagation()}>
       <div className={styles.content}>
         <div className={styles.header}>
           <h1>{props.marker.Name}</h1>
@@ -30,7 +30,10 @@ const SidebarInfo = (props: Props) => {
         ) : (
           <></>
         )}
+        <div className={styles.description}>
         <p>{props.marker.Description}</p>
+        </div>
+        
         <div className={styles.buttons}>
           <CustomButton
             onClick={() => {}}
