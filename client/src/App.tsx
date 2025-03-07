@@ -54,6 +54,7 @@ const router = createBrowserRouter([
 function App() {
   const user: User = {
     id: "0",
+    username: "",
     name: "Testovaci User",
     email: "test@test.com",
     role: "default",

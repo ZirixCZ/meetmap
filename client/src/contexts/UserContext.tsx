@@ -8,6 +8,7 @@ interface UserContextProps {
 const UserContext = createContext<UserContextProps>({
   user: {
     id: "",
+    username: "",
     name: "",
     email: "",
     role: "",

@@ -1,7 +1,7 @@
 .container {
   position: absolute;
   width: 25.25rem;
-  height: 15.5rem;
+  height: 31rem;
   z-index: 10000;
   background-color: white;
   flex-direction: column;
@@ -22,6 +22,41 @@
     font-weight: 700;
     font-size: 24px;
   }
+}
+
+.fetchedUsersItemContainer {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  align-items: center;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+
+  & > img {
+    padding-left: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.searchBarContainer {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
 }
 
 .content {
@@ -53,4 +88,8 @@
     margin: 0;
     color: gray;
   }
+}
+
+.logoutButton {
+  margin-top: 5rem;
 }

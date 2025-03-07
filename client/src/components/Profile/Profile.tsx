@@ -4,6 +4,9 @@ import CustomButton from "../ui/AuthDialog/CustomButton";
 import { useUser } from "../../contexts/UserContext";
 
 import styles from "./Profile.module.css";
+import { useRef, useState } from "react";
+import { useFetchUsersByUsername } from "../../hooks/useFetchUsersByUsername";
+import { User } from "../../types/user";
 
 interface Props {
   closeCallback: VoidFunction;
@@ -12,6 +15,14 @@ interface Props {
 const Profile = (props: Props) => {
   const navigate = useNavigate();
   const user = useUser();
+
+  const [searchedUsername, setSearchedUsername] = useState("");
+
+  const searchedUsers = useFetchUsersByUsername(searchedUsername);
+
+  const friendInputRef = useRef<HTMLInputElement>(null);
+
+  console.log("searchedUsers", searchedUsers);
 
   return (
     <div className={styles.container}>
@@ -25,10 +36,29 @@ const Profile = (props: Props) => {
         <img src="/assets/mockpfp.jpg" />
         <div className={styles.contentActions}>
           <h3>{user.name}</h3>
-          <p>24 kamarádů</p>
+          <p>{user.friendCount ?? 0} kamarádů.</p>
         </div>
       </div>
+      <div className={styles.searchBarContainer}>
+        <label className={styles.label}>Vyhledat uživatele</label>
+        <input
+          onChange={(e) => setSearchedUsername(e.target.value)}
+          ref={friendInputRef}
+          className={styles.input}
+          type="text"
+        />
+        {searchedUsers && searchedUsers.length > 0
+          ? searchedUsers.map((user: User) => (
+              <div className={styles.fetchedUsersItemContainer}>
+                <img src="/assets/user-plus-solid.svg" />
+                <p>{user.username}</p>
+              </div>
+            ))
+          : null}
+      </div>
+      <div className={styles.searchBarContainer}></div>
       <CustomButton
+        className={styles.logoutButton}
         size="small"
         variant="secondary"
         onClick={() => navigate("/auth")}
