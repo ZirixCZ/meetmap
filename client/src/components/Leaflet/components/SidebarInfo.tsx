@@ -2,7 +2,6 @@ import { Cross, CrossBlack } from "../../../svg";
 import { Marker } from "../../../types";
 import CustomButton from "../../ui/AuthDialog/CustomButton";
 
-
 import styles from "./SidebarInfo.module.css";
 
 interface Props {
@@ -16,7 +15,11 @@ const SidebarInfo = (props: Props) => {
     <div className={styles.container} onScroll={(e) => e.stopPropagation()}>
       <div className={styles.content}>
         <div className={styles.header}>
-          <h1>{props.marker.Type == "MĚŘÍCÍ STANICE" ? "Měřící stanice" : props.marker.Name}</h1>
+          <h1>
+            {props.marker.Type == "MĚŘÍCÍ STANICE"
+              ? "Měřící stanice"
+              : props.marker.Name}
+          </h1>
           <button onClick={props.closeCallback}>
             <CrossBlack />
           </button>
@@ -34,35 +37,38 @@ const SidebarInfo = (props: Props) => {
         )}
         <h3>Kvalita ovzduší: {props.marker.Pollution}</h3>
         <div className={styles.description}>
-        <p>{props.marker.Description}</p>
+          <p>{props.marker.Description}</p>
         </div>
-        {props.marker.Type == "MĚŘÍCÍ STANICE" ? <></> :
-        <div className={styles.buttons}>
-          <CustomButton
-            onClick={() => {}}
-            variant="primary"
-            size="small"
-            text="Program"
-          ></CustomButton>
-          <CustomButton
-            onClick={() => props.createMeetupCallback(props.marker)}
-            variant="primary"
-            size="small"
-            text="Vytvořit meetup"
-          ></CustomButton>
-          <CustomButton
-            onClick={() => {}}
-            variant="primary"
-            size="small"
-            text="Like"
-          ></CustomButton>
-          <CustomButton
-            onClick={() => {}}
-            variant="primary"
-            size="small"
-            text="Webové stránky"
-          ></CustomButton>
-        </div>}
+        {props.marker.Type == "MĚŘÍCÍ STANICE" ? (
+          <></>
+        ) : (
+          <div className={styles.buttons}>
+            <CustomButton
+              onClick={() => {}}
+              variant="primary"
+              size="small"
+              text="Program"
+            ></CustomButton>
+            <CustomButton
+              onClick={() => props.createMeetupCallback(props.marker)}
+              variant="primary"
+              size="small"
+              text="Vytvořit meetup"
+            ></CustomButton>
+            <CustomButton
+              onClick={() => {}}
+              variant="primary"
+              size="small"
+              text="Like"
+            ></CustomButton>
+            <CustomButton
+              onClick={() => {}}
+              variant="primary"
+              size="small"
+              text="Webové stránky"
+            ></CustomButton>
+          </div>
+        )}
       </div>
     </div>
   );

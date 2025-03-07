@@ -180,64 +180,13 @@ const Leaflet = () => {
 
   const createMeetupCallback = (marker: MarkerType) => {
     console.log("marker callback", marker);
-    rightClickPos.current = [marker.lat, marker.lng];
+    rightClickPos.current = [marker.lat ?? 0, marker.lng ?? 0];
     setActiveMarker(null);
     createMeetup();
   };
 
   return (
-    <MapContainer
-      center={userLocation || [50.209722, 15.830473]}
-      zoom={13}
-      style={{ height: "100%", width: "100%",  }}
-
-    >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-      {userLocation && (
-        <LiveLocation position={userLocation} heading={heading} />
-      )}
-
-      <RightClickHandler onRightClick={handleRightClick} />
-
-      {showPopup && rightClickPos.current && (
-        <Popup
-          position={rightClickPos.current}
-          eventHandlers={{
-            remove: () => {
-              rightClickPos.current = null;
-              setShowPopup(false);
-            },
-          }}
-        >
-          <div>
-            <p>Vytvořit meetup na tomto místě?</p>
-            <CustomButton
-              onClick={createMeetup}
-              text="Vytvořit meetup"
-            ></CustomButton>
-          </div>
-        </Popup>
-      )}
-
-      {meetupDialog}
-      {selectedLocation && (
-        <Marker position={selectedLocation} icon={meetupIcon} />
-      )}
-
-      {meetups.map((meetup) => (
-        <Marker
-          zIndexOffset={999}
-          key={meetup.id}
-          position={meetup.position}
-          icon={newMeetupIcon}
-        >
-          <Popup>Meetup Location</Popup>
-        </Marker>
-      ))}
-      
-
-
+    <>
       {activeMarker && (
         <SidebarInfo
           createMeetupCallback={createMeetupCallback}
@@ -245,12 +194,62 @@ const Leaflet = () => {
           marker={activeMarker}
         />
       )}
-      <MapView
-        handleClick={handleClick}
-        markers={markers}
-        updateMarkers={updateMarkersDebounce}
-      />
-    </MapContainer>
+      <MapContainer
+        center={userLocation || [50.209722, 15.830473]}
+        zoom={13}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+        {userLocation && (
+          <LiveLocation position={userLocation} heading={heading} />
+        )}
+
+        <RightClickHandler onRightClick={handleRightClick} />
+
+        {showPopup && rightClickPos.current && (
+          <Popup
+            position={rightClickPos.current}
+            eventHandlers={{
+              remove: () => {
+                rightClickPos.current = null;
+                setShowPopup(false);
+              },
+            }}
+          >
+            <div>
+              <p>Vytvořit meetup na tomto místě?</p>
+              <CustomButton
+                onClick={createMeetup}
+                text="Vytvořit meetup"
+              ></CustomButton>
+            </div>
+          </Popup>
+        )}
+
+        {meetupDialog}
+        {selectedLocation && (
+          <Marker position={selectedLocation} icon={meetupIcon} />
+        )}
+
+        {meetups.map((meetup) => (
+          <Marker
+            zIndexOffset={999}
+            key={meetup.id}
+            position={meetup.position}
+            icon={newMeetupIcon}
+          >
+            <Popup>Meetup Location</Popup>
+          </Marker>
+        ))}
+
+        <MapView
+          handleClick={handleClick}
+          markers={markers}
+          updateMarkers={updateMarkersDebounce}
+        />
+      </MapContainer>
+    </>
   );
 };
 
