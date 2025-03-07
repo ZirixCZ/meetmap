@@ -10,6 +10,17 @@
   border-radius: 1rem;
   padding: 1.75rem 1.5rem;
   box-sizing: border-box;
+
+  & > button:last-child {
+    position: absolute;
+    width: 80%;
+  }
+}
+
+.logoutButtonContainer {
+  width: 90%;
+  bottom: 1rem;
+  position: absolute;
 }
 
 .header {
@@ -31,14 +42,31 @@
   align-items: center;
   flex-direction: row;
   gap: 1rem;
-  margin-top: 1rem;
   cursor: pointer;
 
   & > img {
-    padding-left: 0.5rem;
+    border-radius: 100%;
+    margin-left: 0.5rem;
     width: 2rem;
     height: 2rem;
   }
+
+  & > p {
+    font-size: 14px;
+  }
+
+  & > img:last-child {
+    border-radius: 0;
+    margin-left: auto;
+    margin-right: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+.label {
+  font-size: 14px;
+  color: #333333;
 }
 
 .searchBarContainer {
@@ -88,8 +116,4 @@
     margin: 0;
     color: gray;
   }
-}
-
-.logoutButton {
-  margin-top: 5rem;
 }

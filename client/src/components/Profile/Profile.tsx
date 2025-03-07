@@ -6,6 +6,7 @@ import { useUser } from "../../contexts/UserContext";
 import styles from "./Profile.module.css";
 import { useRef, useState } from "react";
 import { useFetchUsersByUsername } from "../../hooks/useFetchUsersByUsername";
+import { useGetFriendRequests } from "../../hooks/useGetFriendRequests";
 import { User } from "../../types/user";
 
 interface Props {
@@ -19,6 +20,7 @@ const Profile = (props: Props) => {
   const [searchedUsername, setSearchedUsername] = useState("");
 
   const searchedUsers = useFetchUsersByUsername(searchedUsername);
+  const friendRequests = useGetFriendRequests(user?.id ?? null);
 
   const friendInputRef = useRef<HTMLInputElement>(null);
 
@@ -50,20 +52,25 @@ const Profile = (props: Props) => {
         {searchedUsers && searchedUsers.length > 0
           ? searchedUsers.map((user: User) => (
               <div className={styles.fetchedUsersItemContainer}>
-                <img src="/assets/user-plus-solid.svg" />
+                <img src="/assets/avatar-placeholder.jpg" />
                 <p>{user.username}</p>
+                <img src="/assets/user-plus-solid.svg" />
               </div>
             ))
           : null}
       </div>
-      <div className={styles.searchBarContainer}></div>
-      <CustomButton
-        className={styles.logoutButton}
-        size="small"
-        variant="secondary"
-        onClick={() => navigate("/auth")}
-        text="Odhlásit se"
-      />
+      {friendRequests && friendRequests.length > 0 ? (
+        <p className={styles.label}>Žádosti o přátelství</p>
+      ) : null}
+      <div className={styles.logoutButtonContainer}>
+        <CustomButton
+          className={styles.logoutButton}
+          size="small"
+          variant="secondary"
+          onClick={() => navigate("/auth")}
+          text="Odhlásit se"
+        />
+      </div>
     </div>
   );
 };
