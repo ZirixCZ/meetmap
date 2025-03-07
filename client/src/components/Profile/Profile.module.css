@@ -5,8 +5,8 @@
   z-index: 10000;
   background-color: white;
   flex-direction: column;
-  right: 0.5rem;
-  top: -0.5rem;
+  right: 1.5rem;
+  top: 1.5rem;
   border-radius: 1rem;
   padding: 1.75rem 1.5rem;
   box-sizing: border-box;
@@ -42,7 +42,6 @@
   align-items: center;
   flex-direction: row;
   gap: 1rem;
-  cursor: pointer;
 
   & > img {
     border-radius: 100%;
@@ -61,6 +60,7 @@
     margin-right: 0.5rem;
     width: 1.5rem;
     height: 1.5rem;
+    cursor: pointer;
   }
 }
 

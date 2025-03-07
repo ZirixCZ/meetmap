@@ -10,6 +10,7 @@ import RegisterDialogRoute from "./routes/registerDialog";
 import { UserContextProvider } from "./contexts/UserContext";
 import AdminRoute from "./routes/admin";
 import { User } from "./types/user";
+import { RightCornerDialogProvider } from "./contexts/RightCornerDialogOpened";
 
 const router = createBrowserRouter([
   {
@@ -64,9 +65,11 @@ function App() {
 
   return (
     <UserContextProvider user={null} token={null}>
-      <LeafletProvider>
-        <RouterProvider router={router} />
-      </LeafletProvider>
+      <RightCornerDialogProvider>
+        <LeafletProvider>
+          <RouterProvider router={router} />
+        </LeafletProvider>
+      </RightCornerDialogProvider>
     </UserContextProvider>
   );
 }

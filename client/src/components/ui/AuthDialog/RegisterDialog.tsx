@@ -85,7 +85,7 @@ const RegisterDialog = () => {
     console.log("Image Url:", imageUrl);
 
     const response = await fetch(apiUrl + "/users-create", {
-      method: "PUT",
+      method: "POST",
       body: JSON.stringify({
         name: name,
         email: email,

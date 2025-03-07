@@ -4,17 +4,22 @@ import Profile from "../Profile/Profile";
 import styles from "./RightFloaters.module.css";
 import Meetup from "../Meetup/Meetup";
 import { useNavigate } from "react-router-dom";
+import { useRightCornerDialog } from "../../contexts/RightCornerDialogOpened";
 
 const RightFloaters = () => {
   const [userOpen, setUserOpen] = useState(false);
   const [bookmarkOpen, setBookmarkOpen] = useState(false);
   const userButtonRef = useRef<HTMLButtonElement>(null);
   const bookmarkButtonRef = useRef<HTMLButtonElement>(null);
+  const { isOpen, setIsOpen } = useRightCornerDialog();
 
   const navigate = useNavigate();
 
   const handleUserOpen = () => {
-    setUserOpen((prev) => !prev);
+    setUserOpen((prev) => {
+      setIsOpen(!prev);
+      return !prev;
+    });
   };
 
   const handleBookmarkOpen = () => {
@@ -30,10 +35,14 @@ const RightFloaters = () => {
 
   return (
     <div className={styles.container}>
-      <button onClick={navigateToAdmin}>Admin</button>
-      <button ref={userButtonRef} onClick={handleUserOpen}>
-        <User />
-      </button>
+      {userOpen ? null : (
+        <>
+          <button onClick={navigateToAdmin}>Admin</button>
+          <button ref={userButtonRef} onClick={handleUserOpen}>
+            <User />
+          </button>
+        </>
+      )}
       {userOpen && <Profile closeCallback={handleUserOpen} />}
     </div>
   );
