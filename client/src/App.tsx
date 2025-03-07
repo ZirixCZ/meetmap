@@ -52,17 +52,9 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const user: User = {
-    id: "0",
-    name: "Testovaci User",
-    email: "test@test.com",
-    role: "default",
-    createdAt: "",
-    updatedAt: "",
-  };
 
   return (
-    <UserContextProvider user={user}>
+    <UserContextProvider user={null} token={null}>
       <LeafletProvider>
         <RouterProvider router={router} />
       </LeafletProvider>
