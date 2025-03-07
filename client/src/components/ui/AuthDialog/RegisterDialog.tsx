@@ -97,13 +97,16 @@ const RegisterDialog = () => {
     if (response.ok) {
       const data = await response.json();
       console.log(data);
+      alert("Registrace proběhla úspěšně.");
+      navigate("/auth");
     } else {
       const errorData = await response.json();
       console.error("Registration failed:", errorData.message);
-      alert("Registration failed: " + errorData.message);
+      alert("Nastala chyba při registraci: " + errorData.message
+      );
     }
 
-    navigate("/map");
+   
   };
 
   const handlePlaceholderClick = () => {

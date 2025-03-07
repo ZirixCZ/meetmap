@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import L, { LatLngBoundsExpression } from "leaflet";
+import L, { LatLngBounds, LatLngBoundsExpression } from "leaflet";
 import { TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import { Marker as MarkerType, MarkerUpdateOptions } from "../../types";
 
@@ -55,7 +55,7 @@ const MapView = (props: Props) => {
   useEffect(() => {
     if (!props.markers?.length) {
       console.log("no markers");
-      props.updateMarkers({ bounds: map.getBounds(), zoom: map.getZoom() }, 0);
+      props.updateMarkers({ bounds: new LatLngBounds([[0, 0], [100, 90]]), zoom: 1 }, 0);
       return;
     }
 

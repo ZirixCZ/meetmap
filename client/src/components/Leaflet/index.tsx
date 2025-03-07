@@ -195,7 +195,12 @@ const Leaflet = () => {
       {showPopup && rightClickPos.current && (
         <Popup
           position={rightClickPos.current}
-          eventHandlers={{ remove: () => (rightClickPos.current = null) }}
+          eventHandlers={{
+            remove: () => {
+              rightClickPos.current = null;
+              setShowPopup(false);
+            },
+          }}
         >
           <div>
             <p>Vytvořit meetup na tomto místě?</p>
