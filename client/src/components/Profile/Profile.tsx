@@ -107,19 +107,27 @@ const Profile = (props: Props) => {
         <img src={user?.user.profile_image_url} />
         <div className={styles.contentActions}>
           <h3>{user?.user.username ?? "Chyba"}</h3>
-          <p>{user?.user.friendCount ?? 0} přátel.</p>
+          <p>Počet přátel: {friends?.length ?? 0}</p>
         </div>
       </div>
       <div className={styles.searchBarContainer}>
         {friends && <label className={styles.label}>Přátelé</label>}
-        {friends && friends.length > 0
-          ? friends.map((user: User) => (
-              <div className={styles.fetchedUsersItemContainer}>
-                <img src={user.user.profile_image_url} />
-                <p>{user.user.username}</p>
-              </div>
-            ))
-          : null}
+        <div
+          style={{
+            overflowY: "scroll",
+            maxHeight: "7rem",
+            height: "fit-content",
+          }}
+        >
+          {friends && friends.length > 0
+            ? friends.map((user: User) => (
+                <div className={styles.fetchedUsersItemContainer}>
+                  <img src={user.user.profile_image_url} />
+                  <p>{user.user.username}</p>
+                </div>
+              ))
+            : null}
+        </div>
 
         <label className={styles.label}>Vyhledat uživatele</label>
         <input
@@ -128,55 +136,75 @@ const Profile = (props: Props) => {
           className={styles.input}
           type="text"
         />
-        {searchedUsers && searchedUsers.length > 0
-          ? searchedUsers.map((user: User) => (
-              <div className={styles.fetchedUsersItemContainer}>
-                <img src={user.user.profile_image_url} />
-                <p>{user.user.username}</p>
-                {user.relationship === "NONE" ? (
-                  <img
-                    onClick={() => friendRequestSendHandler(user)}
-                    src="/assets/user-plus-solid.svg"
-                  />
-                ) : user.relationship === "PENDING" ? (
-                  <img src="/assets/envelope.svg" />
-                ) : user.relationship === "ACCEPTED" ? (
-                  <img src="/assets/user-group-solid.svg" />
-                ) : null}
-              </div>
-            ))
-          : null}
+        <div
+          style={{
+            overflowY: "scroll",
+            maxHeight: "7rem",
+            height: "fit-content",
+          }}
+        >
+          {searchedUsers && searchedUsers.length > 0
+            ? searchedUsers.map((user: User) => (
+                <div className={styles.fetchedUsersItemContainer}>
+                  <img src={user.user.profile_image_url} />
+                  <p>{user.user.username}</p>
+                  {user.relationship === "NONE" ? (
+                    <img
+                      onClick={() => friendRequestSendHandler(user)}
+                      src="/assets/user-plus-solid.svg"
+                    />
+                  ) : user.relationship === "PENDING" ? (
+                    <img src="/assets/envelope.svg" />
+                  ) : user.relationship === "ACCEPTED" ? (
+                    <img src="/assets/user-group-solid.svg" />
+                  ) : null}
+                </div>
+              ))
+            : null}
+        </div>
       </div>
-      {friendRequests && friendRequests.length > 0 ? (
-        <>
-          <p className={styles.label}>Žádosti o přátelství</p>
-          {friendRequests.map((friendRequestUser: User) => (
-            <div className={styles.fetchedUsersItemContainer}>
-              <img src={friendRequestUser.user.profile_image_url} />
-              <p>{friendRequestUser.user?.username}</p>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "0.5rem",
-                  marginLeft: "auto",
-                  paddingRight: "0.5rem",
-                }}
-              >
-                <img
-                  onClick={() => friendRequestDeclineHandler(friendRequestUser)}
-                  src="/assets/decline.svg"
-                  style={{ cursor: "pointer" }}
-                />
-                <img
-                  onClick={() => friendRequestAcceptHandler(friendRequestUser)}
-                  src="/assets/approve.svg"
-                  style={{ cursor: "pointer" }}
-                />
+      <div
+        style={{
+          overflowY: "scroll",
+          maxHeight: "7rem",
+          height: "fit-content",
+        }}
+      >
+        {friendRequests && friendRequests.length > 0 ? (
+          <>
+            <p className={styles.label}>Žádosti o přátelství</p>
+            {friendRequests.map((friendRequestUser: User) => (
+              <div className={styles.fetchedUsersItemContainer}>
+                <img src={friendRequestUser.user.profile_image_url} />
+                <p>{friendRequestUser.user?.username}</p>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "0.5rem",
+                    marginLeft: "auto",
+                    paddingRight: "0.5rem",
+                  }}
+                >
+                  <img
+                    onClick={() =>
+                      friendRequestDeclineHandler(friendRequestUser)
+                    }
+                    src="/assets/decline.svg"
+                    style={{ cursor: "pointer" }}
+                  />
+                  <img
+                    onClick={() =>
+                      friendRequestAcceptHandler(friendRequestUser)
+                    }
+                    src="/assets/approve.svg"
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
-        </>
-      ) : null}
+            ))}
+          </>
+        ) : null}
+      </div>
       <div className={styles.logoutButtonContainer}>
         <CustomButton
           className={styles.logoutButton}

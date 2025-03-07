@@ -13,7 +13,7 @@ export function useGetFriends(): UseFetchUsersReturn {
   const { token } = useUser();
 
   const fetchUsers = useCallback(() => {
-    fetch(`${apiUrl}/getFriends`, {
+    fetch(`${apiUrl}/get-friends`, {
       method: "GET",
       headers: {
         Authorization: `${token}`,

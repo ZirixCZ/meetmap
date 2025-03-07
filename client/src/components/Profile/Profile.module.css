@@ -1,7 +1,7 @@
 .container {
   position: absolute;
   width: 25.25rem;
-  height: 31rem;
+  height: 41rem;
   z-index: 10000;
   background-color: white;
   flex-direction: column;
