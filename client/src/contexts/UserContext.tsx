@@ -17,6 +17,7 @@ const UserContext = createContext<UserContextProps>({
     role: "",
     createdAt: "",
     updatedAt: "",
+    friendCount: 0,
   },
   setUser: () => {},
   token: "",
@@ -29,7 +30,11 @@ interface UserProviderProps {
   token: string | null;
 }
 
-export function UserContextProvider({ user, children, token }: UserProviderProps) {
+export function UserContextProvider({
+  user,
+  children,
+  token,
+}: UserProviderProps) {
   function setUser(newUser: User) {
     user = newUser;
   }
@@ -38,12 +43,12 @@ export function UserContextProvider({ user, children, token }: UserProviderProps
     token = newToken;
   }
 
-
   return (
-    <UserContext.Provider value={{ user, setUser, token, setToken }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ user, setUser, token, setToken }}>
+      {children}
+    </UserContext.Provider>
   );
 }
-
 
 export function useUser() {
   const context = useContext(UserContext);

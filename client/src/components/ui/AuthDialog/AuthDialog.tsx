@@ -36,18 +36,19 @@ const AuthDialog = () => {
       console.error("Login failed:", errorData.message);
       alert("Login failed: " + errorData.message);
     }
-    
+
     user.setUser({
       id: "1",
       name: "Test",
+      username: "TestUsername",
       email: email,
       role: "user",
       createdAt: "",
       updatedAt: "",
+      friendCount: 0,
     });
-      
 
-    // 
+    //
     //ODO: Add actual authentication logic here
   };
 

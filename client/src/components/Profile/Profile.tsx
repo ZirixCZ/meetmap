@@ -14,7 +14,7 @@ interface Props {
 
 const Profile = (props: Props) => {
   const navigate = useNavigate();
-  const user = useUser();
+  const { user } = useUser();
 
   const [searchedUsername, setSearchedUsername] = useState("");
 
@@ -35,8 +35,8 @@ const Profile = (props: Props) => {
       <div className={styles.content}>
         <img src="/assets/mockpfp.jpg" />
         <div className={styles.contentActions}>
-          <h3>{user.name}</h3>
-          <p>{user.friendCount ?? 0} kamarádů.</p>
+          <h3>{user?.name ?? "Chyba"}</h3>
+          <p>{user?.friendCount ?? 0} kamarádů.</p>
         </div>
       </div>
       <div className={styles.searchBarContainer}>
