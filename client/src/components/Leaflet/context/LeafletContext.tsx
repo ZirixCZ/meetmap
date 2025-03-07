@@ -56,7 +56,7 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
     };
 
     try {
-      fetch("https://sea-lion-app-bsvxc.ondigitalocean.app/places", {
+      fetch("https://nku.cznavody19.tk/places", {
         method: "POST",
         body: JSON.stringify({
           north_west,

@@ -964,11 +964,21 @@ export const LuckyClover = (props: Props) => {
 
 export const AddIcon = (props: Props) => {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.9996 10.5359C19.351 10.5358 19.6359 10.2509 19.6359 9.89954C19.6359 9.54805 19.351 9.26312 18.9995 9.2631L10.6364 9.26313L10.6364 0.899958C10.6364 0.548499 10.3515 0.263592 10 0.263601C9.64854 0.263592 9.36363 0.548499 9.36364 0.899958L9.36363 9.26313L1.00051 9.2631C0.64901 9.26312 0.364086 9.54805 0.364059 9.89954C0.364113 10.2509 0.64902 10.5358 1.00042 10.5359L9.36363 10.5359L9.36355 18.899C9.36364 19.2505 9.64857 19.5354 10 19.5355C10.3514 19.5354 10.6364 19.2505 10.6364 18.899L10.6364 10.5359L18.9996 10.5359Z" fill="#1B1937"/>
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M18.9996 10.5359C19.351 10.5358 19.6359 10.2509 19.6359 9.89954C19.6359 9.54805 19.351 9.26312 18.9995 9.2631L10.6364 9.26313L10.6364 0.899958C10.6364 0.548499 10.3515 0.263592 10 0.263601C9.64854 0.263592 9.36363 0.548499 9.36364 0.899958L9.36363 9.26313L1.00051 9.2631C0.64901 9.26312 0.364086 9.54805 0.364059 9.89954C0.364113 10.2509 0.64902 10.5358 1.00042 10.5359L9.36363 10.5359L9.36355 18.899C9.36364 19.2505 9.64857 19.5354 10 19.5355C10.3514 19.5354 10.6364 19.2505 10.6364 18.899L10.6364 10.5359L18.9996 10.5359Z"
+        fill="#1B1937"
+      />
     </svg>
-    );
-
+  );
 };
 
 export const Search = (props: Props) => {
@@ -985,14 +995,14 @@ export const Search = (props: Props) => {
         d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
         stroke="#989898"
         stroke-width="1.25"
-        stroke-linecap="round"
+        strokeLinecap="round"
         stroke-linejoin="round"
       />
       <path
         d="M21 21L16.65 16.65"
         stroke="#989898"
         stroke-width="1.25"
-        stroke-linecap="round"
+        strokeLinecap="round"
         stroke-linejoin="round"
       />
     </svg>
@@ -1033,7 +1043,7 @@ export const Check = (props: Props) => {
         d="M20 6L9 17L4 12"
         stroke="#0E9935"
         stroke-width="1.25"
-        stroke-linecap="round"
+        strokeLinecap="round"
         stroke-linejoin="round"
       />
     </svg>
@@ -1053,16 +1063,16 @@ export const User = (props: Props) => {
       <path
         d="M19 21V19C19 17.9391 18.5786 16.9217 17.8284 16.1716C17.0783 15.4214 16.0609 15 15 15H9C7.93913 15 6.92172 15.4214 6.17157 16.1716C5.42143 16.9217 5 17.9391 5 19V21"
         stroke="#020617"
-        stroke-width="1.25"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
         stroke="#020617"
         stroke-width="1.25"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -1082,7 +1092,7 @@ export const Bookmark = (props: Props) => {
         d="M19 21L12 17L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z"
         stroke="#020617"
         stroke-width="1.25"
-        stroke-linecap="round"
+        strokeLinecap="round"
         stroke-linejoin="round"
       />
     </svg>

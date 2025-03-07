@@ -7,8 +7,9 @@ import Root from "./routes/root";
 import AuthDialogRoute from "./routes/authDialog";
 import SearchOverlayRoute from "./routes/searchOverlay";
 import RegisterDialogRoute from "./routes/registerDialog";
-import { UserContextProvider } from "./components/UserContextProvider/UserContextProvider";
+import { UserContextProvider } from "./contexts/UserContext";
 import AdminRoute from "./routes/admin";
+import { User } from "./types/user";
 
 const router = createBrowserRouter([
   {
@@ -51,8 +52,17 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const user: User = {
+    id: "0",
+    name: "Testovaci User",
+    email: "test@test.com",
+    role: "default",
+    createdAt: "",
+    updatedAt: "",
+  };
+
   return (
-    <UserContextProvider value={null}>
+    <UserContextProvider user={user}>
       <LeafletProvider>
         <RouterProvider router={router} />
       </LeafletProvider>
