@@ -189,7 +189,8 @@ const Leaflet = () => {
     <MapContainer
       center={userLocation || [50.209722, 15.830473]}
       zoom={13}
-      style={{ height: "100%", width: "100%" }}
+      style={{ height: "100%", width: "100%",  }}
+
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
@@ -234,6 +235,8 @@ const Leaflet = () => {
           <Popup>Meetup Location</Popup>
         </Marker>
       ))}
+      
+
 
       {activeMarker && (
         <SidebarInfo

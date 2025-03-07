@@ -3,11 +3,12 @@ import L, { LatLngBounds, LatLngBoundsExpression } from "leaflet";
 import { TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import { Marker as MarkerType, MarkerUpdateOptions } from "../../types";
 
-import baseIconUrl from "../../assets/MarkerBase.svg";
+import baseIconUrl from "../../assets/qm5.png";
 import festivalIconUrl from "../../assets/Festivaly.svg";
 import theaterIconUrl from "../../assets/Divadla.svg";
 import cinemaIconUrl from "../../assets/Kina.svg";
 import sportIconUrl from "../../assets/Sport.svg";
+import measurementStationIconUrl from "../../assets/aq.png";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -47,6 +48,8 @@ const MapView = (props: Props) => {
         return createIcon(cinemaIconUrl);
       case "SPORT":
         return createIcon(sportIconUrl);
+      case "MĚŘÍCÍ STANICE":
+        return createIcon(measurementStationIconUrl);
       default:
         return createIcon(baseIconUrl);
     }
@@ -60,8 +63,8 @@ const MapView = (props: Props) => {
     }
 
     const bounds: LatLngBoundsExpression = props.markers.map((marker) => [
-      marker.lat,
-      marker.lng,
+      marker.lat!,
+      marker.lng!,
     ]);
 
     if (bounds?.length) {
@@ -74,19 +77,20 @@ const MapView = (props: Props) => {
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        
       />
       {props?.markers?.map((marker, index) => (
         <Marker
           icon={getIconByType(marker.Type)}
           key={index}
-          position={[marker.lat, marker.lng]}
+          position={[marker.lat!, marker.lng!]}
           eventHandlers={{
             click: () => {
               props.handleClick(marker);
             },
           }}
         >
-          <Popup>{marker.Name}</Popup>
+          <Popup>{marker.Type === "MĚŘÍCÍ STANICE" ? "Měřící stanice":marker.Name}</Popup>
         </Marker>
       ))}
     </div>

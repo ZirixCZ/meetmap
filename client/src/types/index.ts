@@ -7,24 +7,26 @@ export type MarkerType =
   | "DIVADLA_FILHARMONIE"
   | "MUZEA_GALERIE"
   | "PAMATKY"
-  | "SPORT";
+  | "SPORT"
+  | "MĚŘÍCÍ STANICE";
 
 export interface Marker {
-  Name: string;
-  Description: string;
-  Accessibility: boolean;
-  AccessibilityNote: string;
-  Capacity: number;
-  CapacityNote: string;
-  Phones: string;
-  Email: string;
-  Web: string;
-  Okres: string;
-  Obce: string;
-  Address: string;
-  lat: number;
-  lng: number;
+  Name: string | null;
+  Description: string | null;
+  Accessibility: boolean | null;
+  AccessibilityNote: string | null;
+  Capacity: number | null;
+  CapacityNote: string | null;
+  Phones: string | null;
+  Email: string | null;
+  Web: string | null;
+  Okres: string | null;
+  Obce: string | null;
+  Address: string | null;
+  lat: number | null;
+  lng: number | null;
   Type: MarkerType;
+  Pollution: string | null;
 }
 
 export interface MarkerUpdateOptions {
