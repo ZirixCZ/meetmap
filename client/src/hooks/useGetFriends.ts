@@ -8,16 +8,12 @@ interface UseFetchUsersReturn {
   refetch: () => void;
 }
 
-export function useFetchUsersByUsername(username: string): UseFetchUsersReturn {
+export function useGetFriends(): UseFetchUsersReturn {
   const [users, setUsers] = useState<User[] | null>(null);
   const { token } = useUser();
 
   const fetchUsers = useCallback(() => {
-    if (!username) {
-      setUsers(null);
-      return;
-    }
-    fetch(`${apiUrl}/users?username=${username}`, {
+    fetch(`${apiUrl}/getFriends`, {
       method: "GET",
       headers: {
         Authorization: `${token}`,
@@ -36,9 +32,8 @@ export function useFetchUsersByUsername(username: string): UseFetchUsersReturn {
         console.error("Fetching users failed:", error);
         setUsers(null);
       });
-  }, [username, token]);
+  }, [token]);
 
-  // Run the fetch when username changes or when refetch is invoked.
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);

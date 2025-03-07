@@ -13,7 +13,8 @@ import MapView from "./MapView";
 import SidebarInfo from "./components/SidebarInfo";
 import { Marker as MarkerType } from "../../types";
 import userArrow from "../../assets/map-pin.png";
-import mapPin from "../../assets/pin.png"; // Arrow marker for user direction
+import mapPin from "../../assets/pin.png";
+import newMeetupPNG from "../../assets/meetup.png";
 import MeetupData from "../../types/meetupData";
 import CustomButton from "../ui/AuthDialog/CustomButton";
 import Meetup from "../Meetup/Meetup";
@@ -30,6 +31,12 @@ const meetupIcon = new L.Icon({
   iconUrl: mapPin,
   iconSize: [32, 32],
   iconAnchor: [16, 32],
+});
+
+const newMeetupIcon = new L.Icon({
+  iconUrl: newMeetupPNG,
+  iconSize: [96, 96],
+  iconAnchor: [48, 48],
 });
 
 // Handles right-clicks to create meetups
@@ -82,7 +89,7 @@ const Leaflet = () => {
   const [heading, setHeading] = useState<number>(0);
   const [meetups, setMeetups] = useState<
     { id: number; position: [number, number] }[]
-  >([]);
+  >([{ id: 1, position: [50.209722, 15.830473] }]);
   const rightClickPos = useRef<LatLngExpression | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedLocation, setSelectedLocation] =
@@ -218,7 +225,12 @@ const Leaflet = () => {
       )}
 
       {meetups.map((meetup) => (
-        <Marker key={meetup.id} position={meetup.position} icon={meetupIcon}>
+        <Marker
+          zIndexOffset={999}
+          key={meetup.id}
+          position={meetup.position}
+          icon={newMeetupIcon}
+        >
           <Popup>Meetup Location</Popup>
         </Marker>
       ))}

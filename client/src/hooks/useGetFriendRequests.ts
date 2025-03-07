@@ -1,17 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { User } from "../types/user";
 import { apiUrl } from "../Constants/constants";
+import { useUser } from "../contexts/UserContext";
 
-export function useGetFriendRequests(userID: string | null): User[] | null {
+interface FriendRequestsReturn {
+  friendRequests: User[] | null;
+  refetch: () => void;
+}
+
+export function useGetFriendRequests(
+  userID: string | null,
+): FriendRequestsReturn {
   const [users, setUsers] = useState<User[] | null>(null);
+  const { token } = useUser();
 
-  useEffect(() => {
+  const fetchFriendRequests = useCallback(() => {
     if (!userID) {
       setUsers(null);
       return;
     }
 
-    fetch(`${apiUrl}/friendRequests`)
+    fetch(`${apiUrl}/friend-requests`, {
+      method: "GET",
+      headers: {
+        Authorization: `${token}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network error");
@@ -22,10 +36,14 @@ export function useGetFriendRequests(userID: string | null): User[] | null {
         setUsers(data);
       })
       .catch((error) => {
-        console.error("Fetching users failed:", error);
+        console.error("Fetching friend requests failed:", error);
         setUsers(null);
       });
-  }, [userID]);
+  }, [userID, token]);
 
-  return users;
+  useEffect(() => {
+    fetchFriendRequests();
+  }, [fetchFriendRequests]);
+
+  return { friendRequests: users, refetch: fetchFriendRequests };
 }

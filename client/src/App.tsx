@@ -7,10 +7,12 @@ import Root from "./routes/root";
 import AuthDialogRoute from "./routes/authDialog";
 import SearchOverlayRoute from "./routes/searchOverlay";
 import RegisterDialogRoute from "./routes/registerDialog";
-import { UserContextProvider } from "./contexts/UserContext";
+import { UserContextProvider, useUser } from "./contexts/UserContext";
 import AdminRoute from "./routes/admin";
 import { User } from "./types/user";
 import { RightCornerDialogProvider } from "./contexts/RightCornerDialogOpened";
+import { apiUrl } from "./Constants/constants";
+import { useEffect } from "react";
 
 const router = createBrowserRouter([
   {
@@ -53,16 +55,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const user: User = {
-    id: "0",
-    username: "",
-    name: "Testovaci User",
-    email: "test@test.com",
-    role: "default",
-    createdAt: "",
-    updatedAt: "",
-  };
-
   return (
     <UserContextProvider user={null} token={null}>
       <RightCornerDialogProvider>

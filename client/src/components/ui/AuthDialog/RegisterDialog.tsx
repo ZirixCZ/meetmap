@@ -89,6 +89,8 @@ const RegisterDialog = () => {
       body: JSON.stringify({
         name: name,
         email: email,
+        username: name + Math.floor(Math.random() * 1000),
+        displayName: name + Math.floor(Math.random() * 1000),
         password: password,
         profile_image_url: imageUrl,
       }),
@@ -102,11 +104,8 @@ const RegisterDialog = () => {
     } else {
       const errorData = await response.json();
       console.error("Registration failed:", errorData.message);
-      alert("Nastala chyba při registraci: " + errorData.message
-      );
+      alert("Nastala chyba při registraci: " + errorData.message);
     }
-
-   
   };
 
   const handlePlaceholderClick = () => {

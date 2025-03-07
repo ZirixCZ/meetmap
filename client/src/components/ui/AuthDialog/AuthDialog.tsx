@@ -29,24 +29,21 @@ const AuthDialog = () => {
 
     if (response.ok) {
       const data = await response.json();
-      user.setUser(data.user);
+      console.log("token", data.token);
+      const userInfo = await fetch(apiUrl + "/user-info", {
+        headers: {
+          Authorization: `${data.token}`,
+        },
+      });
+      const userData = await userInfo.json();
+      user.setUser(userData);
+      user.setToken(data.token);
       navigate("/map");
     } else {
       const errorData = await response.json();
       console.error("Login failed:", errorData.message);
       alert("Login failed: " + errorData.message);
     }
-
-    user.setUser({
-      id: "1",
-      name: "Test",
-      username: "TestUsername",
-      email: email,
-      role: "user",
-      createdAt: "",
-      updatedAt: "",
-      friendCount: 0,
-    });
 
     //
     //ODO: Add actual authentication logic here

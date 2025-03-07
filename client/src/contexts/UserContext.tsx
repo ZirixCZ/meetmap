@@ -1,4 +1,10 @@
-import React, { createContext, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from "react";
 import type { User } from "../types/user";
 
 interface UserContextProps {
@@ -10,14 +16,16 @@ interface UserContextProps {
 
 const UserContext = createContext<UserContextProps>({
   user: {
-    id: "",
-    username: "",
-    name: "",
-    email: "",
-    role: "",
-    createdAt: "",
-    updatedAt: "",
-    friendCount: 0,
+    user: {
+      id: "",
+      username: "",
+      name: "",
+      email: "",
+      role: "",
+      createdAt: "",
+      updatedAt: "",
+      friendCount: 0,
+    },
   },
   setUser: () => {},
   token: "",
@@ -35,16 +43,41 @@ export function UserContextProvider({
   children,
   token,
 }: UserProviderProps) {
+  const [userState, setUserState] = useState<User | null>(user);
+  const [tokenState, setTokenState] = useState<string | null>(token);
+
   function setUser(newUser: User) {
-    user = newUser;
+    window.localStorage.setItem("user", JSON.stringify(newUser));
+    console.log({ user: newUser["user"] });
+    setUserState({ user: newUser["user"] });
   }
 
   function setToken(newToken: string) {
-    token = newToken;
+    window.localStorage.setItem("token", newToken);
+    setTokenState(newToken);
   }
 
+  useEffect(() => {
+    if (!user) {
+      const userString = window.localStorage.getItem("user");
+      console.log("setting user in use effect", userString);
+      if (userString) {
+        setUserState({ user: JSON.parse(userString) });
+      }
+    }
+
+    if (!token) {
+      const tokenString = window.localStorage.getItem("token");
+      if (tokenString) {
+        setTokenState(tokenString);
+      }
+    }
+  }, []);
+
   return (
-    <UserContext.Provider value={{ user, setUser, token, setToken }}>
+    <UserContext.Provider
+      value={{ user: userState, setUser, token: tokenState, setToken }}
+    >
       {children}
     </UserContext.Provider>
   );

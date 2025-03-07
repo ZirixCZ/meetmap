@@ -8,6 +8,8 @@ import { useRef, useState } from "react";
 import { useFetchUsersByUsername } from "../../hooks/useFetchUsersByUsername";
 import { useGetFriendRequests } from "../../hooks/useGetFriendRequests";
 import { User } from "../../types/user";
+import { apiUrl } from "../../Constants/constants";
+import { useGetFriends } from "../../hooks/useGetFriends";
 
 interface Props {
   closeCallback: VoidFunction;
@@ -15,16 +17,83 @@ interface Props {
 
 const Profile = (props: Props) => {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { user, token } = useUser();
 
   const [searchedUsername, setSearchedUsername] = useState("");
 
-  const searchedUsers = useFetchUsersByUsername(searchedUsername);
-  const friendRequests = useGetFriendRequests(user?.id ?? null);
+  const { users: searchedUsers, refetch } =
+    useFetchUsersByUsername(searchedUsername);
+  const { friendRequests, refetch: refetchFriendRequests } =
+    useGetFriendRequests(user?.user.id ?? null);
+  const { users: friends, refetch: refetchFriends } = useGetFriends();
+  console.log(friendRequests, "friend requests");
 
   const friendInputRef = useRef<HTMLInputElement>(null);
 
   console.log("searchedUsers", searchedUsers);
+
+  const friendRequestSendHandler = async (user: User) => {
+    const response = await fetch(`${apiUrl}/add-friend`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify({
+        id: user.user.id,
+      }),
+    });
+
+    if (response.ok) {
+      console.log("Friend request sent");
+      refetch();
+      refetchFriends();
+    } else {
+      console.error("Friend request failed");
+    }
+  };
+
+  const friendRequestAcceptHandler = async (user: User) => {
+    const response = await fetch(`${apiUrl}/accept-friend`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify({
+        id: user.user.id,
+      }),
+    });
+
+    if (response.ok) {
+      console.log("Friend request accepted");
+      refetchFriendRequests();
+      refetchFriends();
+    } else {
+      console.error("Friend request failed");
+    }
+  };
+
+  const friendRequestDeclineHandler = async (user: User) => {
+    const response = await fetch(`${apiUrl}/decline-friend`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify({
+        id: user.user.id,
+      }),
+    });
+
+    if (response.ok) {
+      console.log("Friend request declined");
+      refetchFriendRequests();
+      refetchFriends();
+    } else {
+      console.error("Friend request failed");
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -35,13 +104,23 @@ const Profile = (props: Props) => {
         </button>
       </div>
       <div className={styles.content}>
-        <img src="/assets/mockpfp.jpg" />
+        <img src={user?.user.profile_image_url} />
         <div className={styles.contentActions}>
-          <h3>{user?.name ?? "Chyba"}</h3>
-          <p>{user?.friendCount ?? 0} kamarádů.</p>
+          <h3>{user?.user.username ?? "Chyba"}</h3>
+          <p>{user?.user.friendCount ?? 0} přátel.</p>
         </div>
       </div>
       <div className={styles.searchBarContainer}>
+        {friends && <label className={styles.label}>Přátelé</label>}
+        {friends && friends.length > 0
+          ? friends.map((user: User) => (
+              <div className={styles.fetchedUsersItemContainer}>
+                <img src={user.user.profile_image_url} />
+                <p>{user.user.username}</p>
+              </div>
+            ))
+          : null}
+
         <label className={styles.label}>Vyhledat uživatele</label>
         <input
           onChange={(e) => setSearchedUsername(e.target.value)}
@@ -52,15 +131,51 @@ const Profile = (props: Props) => {
         {searchedUsers && searchedUsers.length > 0
           ? searchedUsers.map((user: User) => (
               <div className={styles.fetchedUsersItemContainer}>
-                <img src="/assets/avatar-placeholder.jpg" />
-                <p>{user.username}</p>
-                <img src="/assets/user-plus-solid.svg" />
+                <img src={user.user.profile_image_url} />
+                <p>{user.user.username}</p>
+                {user.relationship === "NONE" ? (
+                  <img
+                    onClick={() => friendRequestSendHandler(user)}
+                    src="/assets/user-plus-solid.svg"
+                  />
+                ) : user.relationship === "PENDING" ? (
+                  <img src="/assets/envelope.svg" />
+                ) : user.relationship === "ACCEPTED" ? (
+                  <img src="/assets/user-group-solid.svg" />
+                ) : null}
               </div>
             ))
           : null}
       </div>
       {friendRequests && friendRequests.length > 0 ? (
-        <p className={styles.label}>Žádosti o přátelství</p>
+        <>
+          <p className={styles.label}>Žádosti o přátelství</p>
+          {friendRequests.map((friendRequestUser: User) => (
+            <div className={styles.fetchedUsersItemContainer}>
+              <img src={friendRequestUser.user.profile_image_url} />
+              <p>{friendRequestUser.user?.username}</p>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "0.5rem",
+                  marginLeft: "auto",
+                  paddingRight: "0.5rem",
+                }}
+              >
+                <img
+                  onClick={() => friendRequestDeclineHandler(friendRequestUser)}
+                  src="/assets/decline.svg"
+                  style={{ cursor: "pointer" }}
+                />
+                <img
+                  onClick={() => friendRequestAcceptHandler(friendRequestUser)}
+                  src="/assets/approve.svg"
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+            </div>
+          ))}
+        </>
       ) : null}
       <div className={styles.logoutButtonContainer}>
         <CustomButton
