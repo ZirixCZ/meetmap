@@ -54,9 +54,9 @@ const AuthDialog = () => {
 
   return (
     <div className={styles.center}>
-      <div className={styles["justify-center"]}>
+      <div className={styles["justify-center"]} style={{ width: "20rem" }}>
         <h1 className={styles.heading}>
-          Friend<span className={styles.hk}>Mapper</span>
+          meet<span className={styles.hk}>.map</span>
         </h1>
         <InputField
           type="email"

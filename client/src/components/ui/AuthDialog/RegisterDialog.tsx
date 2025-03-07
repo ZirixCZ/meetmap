@@ -112,9 +112,9 @@ const RegisterDialog = () => {
 
   return (
     <div className={styles.center}>
-      <div className={styles["justify-center"]}>
+      <div className={styles["justify-center"]} style={{ width: "20rem" }}>
         <h1 className={styles.heading}>
-          Friends<span className={styles.hk}>HK</span>
+          meet<span className={styles.hk}>.map</span>
         </h1>
         <ProfilePicturePlaceholder
           onClick={handlePlaceholderClick}
@@ -159,6 +159,14 @@ const RegisterDialog = () => {
         />
         <div className={styles.gap}></div>
         <CustomButton text="Zaregistrovat se" onClick={handleRegister} />
+        <div className={styles.smallGap}></div>
+        <CustomButton
+          text="Přihlásit se"
+          onClick={() => navigate("/auth")}
+          backgroundColor="#F0EFFF"
+          textColor="#1B1937"
+          hoverColor="#DEDEEC"
+        />
         <div className={styles.smallGap}></div>
       </div>
     </div>
