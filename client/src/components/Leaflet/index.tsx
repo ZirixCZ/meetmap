@@ -1,5 +1,12 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { MapContainer, Marker, TileLayer, Popup, useMap, useMapEvents } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  TileLayer,
+  Popup,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 import { useLeafletContext } from "./context/LeafletContext";
 import MapView from "./MapView";
@@ -10,7 +17,6 @@ import mapPin from "../../assets/pin.png"; // Arrow marker for user direction
 import MeetupData from "../../types/meetupData";
 import CustomButton from "../ui/AuthDialog/CustomButton";
 import Meetup from "../Meetup/Meetup";
-
 
 // User Location Icon (uses an arrow to show direction)
 const userLocationIcon = new L.DivIcon({
@@ -27,7 +33,11 @@ const meetupIcon = new L.Icon({
 });
 
 // Handles right-clicks to create meetups
-const RightClickHandler = ({ onRightClick }: { onRightClick: (latlng: L.LatLng) => void }) => {
+const RightClickHandler = ({
+  onRightClick,
+}: {
+  onRightClick: (latlng: L.LatLng) => void;
+}) => {
   useMapEvents({
     contextmenu: (event) => {
       onRightClick(event.latlng);
@@ -37,7 +47,13 @@ const RightClickHandler = ({ onRightClick }: { onRightClick: (latlng: L.LatLng) 
 };
 
 // Handles live user tracking
-const LiveLocation = ({ position, heading }: { position: [number, number]; heading: number }) => {
+const LiveLocation = ({
+  position,
+  heading,
+}: {
+  position: [number, number];
+  heading: number;
+}) => {
   const map = useMap();
   const isFirstRender = useRef(true); // Track first render
 
@@ -57,16 +73,20 @@ const LiveLocation = ({ position, heading }: { position: [number, number]; headi
   return <Marker position={position} icon={userLocationIcon} />;
 };
 
-
 const Leaflet = () => {
   const { markers, updateMarkersDebounce } = useLeafletContext();
   const [activeMarker, setActiveMarker] = useState<MarkerType | null>(null);
-  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(
+    null,
+  );
   const [heading, setHeading] = useState<number>(0);
-  const [meetups, setMeetups] = useState<{ id: number; position: [number, number] }[]>([]);
+  const [meetups, setMeetups] = useState<
+    { id: number; position: [number, number] }[]
+  >([]);
   const rightClickPos = useRef<LatLngExpression | null>(null);
   const [showPopup, setShowPopup] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState<LatLngExpression | null>(null);
+  const [selectedLocation, setSelectedLocation] =
+    useState<LatLngExpression | null>(null);
 
   const [showMeetupDialog, setShowMeetupDialog] = useState(false);
 
@@ -75,32 +95,38 @@ const Leaflet = () => {
     console.log(data);
     setShowMeetupDialog(false);
     setShowPopup(false);
-  }
+  };
   const meetupDialogOnClose = () => {
     rightClickPos.current = null;
     setShowMeetupDialog(false);
     setShowPopup(false);
     setSelectedLocation(null);
-    
-  }
+  };
 
   const meetupDialog = useMemo(() => {
     if (!showMeetupDialog) return null;
-    return <Meetup onSubmit={dialogOnSubmit} closeCallback={meetupDialogOnClose} location={rightClickPos.current} />;
+    return (
+      <Meetup
+        onSubmit={dialogOnSubmit}
+        closeCallback={meetupDialogOnClose}
+        location={rightClickPos.current}
+      />
+    );
   }, [showMeetupDialog]);
-
-  
 
   useEffect(() => {
     if ("geolocation" in navigator) {
       const watchId = navigator.geolocation.watchPosition(
         (position) => {
-          setUserLocation([position.coords.latitude, position.coords.longitude]);
+          setUserLocation([
+            position.coords.latitude,
+            position.coords.longitude,
+          ]);
         },
         (error) => {
           console.error("Error getting live location:", error);
         },
-        { enableHighAccuracy: true, maximumAge: 0 }
+        { enableHighAccuracy: true, maximumAge: 0 },
       );
 
       return () => navigator.geolocation.clearWatch(watchId);
@@ -117,27 +143,23 @@ const Leaflet = () => {
     };
 
     window.addEventListener("deviceorientation", handleOrientation);
-    return () => window.removeEventListener("deviceorientation", handleOrientation);
+    return () =>
+      window.removeEventListener("deviceorientation", handleOrientation);
   }, []);
 
   const handleRightClick = (latlng: L.LatLng) => {
-   
     rightClickPos.current = [latlng.lat, latlng.lng];
     setShowPopup(true);
   };
 
-  
-
   const createMeetup = () => {
     if (rightClickPos) {
-
       setShowMeetupDialog(true);
       setShowPopup(false);
       setSelectedLocation(rightClickPos.current);
 
       //setMeetups((prev) => [...prev, { id: Date.now(), position: rightClickPos }]);
       //setRightClickPos(null); // Hide popup after creating meetup
-      
     }
   };
 
@@ -149,6 +171,13 @@ const Leaflet = () => {
     setActiveMarker(null);
   };
 
+  const createMeetupCallback = (marker: MarkerType) => {
+    console.log("marker callback", marker);
+    rightClickPos.current = [marker.lat, marker.lng];
+    setActiveMarker(null);
+    createMeetup();
+  };
+
   return (
     <MapContainer
       center={userLocation || [50.209722, 15.830473]}
@@ -157,21 +186,31 @@ const Leaflet = () => {
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-      {userLocation && <LiveLocation position={userLocation} heading={heading} />}
+      {userLocation && (
+        <LiveLocation position={userLocation} heading={heading} />
+      )}
 
       <RightClickHandler onRightClick={handleRightClick} />
 
       {showPopup && rightClickPos.current && (
-        <Popup position={rightClickPos.current} eventHandlers={{ remove: () => rightClickPos.current = null }}>
+        <Popup
+          position={rightClickPos.current}
+          eventHandlers={{ remove: () => (rightClickPos.current = null) }}
+        >
           <div>
             <p>Vytvořit meetup na tomto místě?</p>
-            <CustomButton onClick={createMeetup} text="Vytvořit meetup"></CustomButton>
+            <CustomButton
+              onClick={createMeetup}
+              text="Vytvořit meetup"
+            ></CustomButton>
           </div>
         </Popup>
       )}
 
       {meetupDialog}
-      {selectedLocation && <Marker position={selectedLocation} icon={meetupIcon} />}
+      {selectedLocation && (
+        <Marker position={selectedLocation} icon={meetupIcon} />
+      )}
 
       {meetups.map((meetup) => (
         <Marker key={meetup.id} position={meetup.position} icon={meetupIcon}>
@@ -179,8 +218,18 @@ const Leaflet = () => {
         </Marker>
       ))}
 
-      {activeMarker && <SidebarInfo closeCallback={closeCallback} marker={activeMarker} />}
-      <MapView handleClick={handleClick} markers={markers} updateMarkers={updateMarkersDebounce} />
+      {activeMarker && (
+        <SidebarInfo
+          createMeetupCallback={createMeetupCallback}
+          closeCallback={closeCallback}
+          marker={activeMarker}
+        />
+      )}
+      <MapView
+        handleClick={handleClick}
+        markers={markers}
+        updateMarkers={updateMarkersDebounce}
+      />
     </MapContainer>
   );
 };

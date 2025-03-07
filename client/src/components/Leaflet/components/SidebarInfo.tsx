@@ -7,6 +7,7 @@ import styles from "./SidebarInfo.module.css";
 interface Props {
   marker: Marker;
   closeCallback: VoidFunction;
+  createMeetupCallback: (marker: Marker) => void;
 }
 
 const SidebarInfo = (props: Props) => {
@@ -39,7 +40,7 @@ const SidebarInfo = (props: Props) => {
             text="Program"
           ></CustomButton>
           <CustomButton
-            onClick={() => {}}
+            onClick={() => props.createMeetupCallback(props.marker)}
             variant="primary"
             size="small"
             text="Vytvořit meetup"
