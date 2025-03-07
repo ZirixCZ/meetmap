@@ -6,6 +6,8 @@ interface SelectProps {
   placeholder: string;
   title: string | undefined;
   options: string[];  // Array of options for the select dropdown
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const SelectField = (props: SelectProps) => {

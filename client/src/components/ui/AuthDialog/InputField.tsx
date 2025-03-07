@@ -1,29 +1,28 @@
-import React from 'react';
-import styles from './InputField.module.css';
-import cx from 'classnames';
+import React from "react";
+import styles from "./InputField.module.css";
+import cx from "classnames";
 
 interface InputProps {
-    type: string;
-    placeholder: string;
-    title: string | undefined;
-    }
+  type: string;
+  placeholder: string;
+  title?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+}
 
-
-
-const InputField = (props: InputProps) => {
+const InputField: React.FC<InputProps> = ({ type, placeholder, title, value, onChange, className }) => {
   return (
-    <div className={cx(styles.fieldContainer, styles.text)}>
-        <p>
-            {props.title ?? props.placeholder}
-        </p>
-<input 
-      type={props.type}
-      placeholder={props.placeholder} 
-      className={styles.input} 
-    />
+    <div className={cx(styles.fieldContainer, styles.text, className)}>
+      <p>{title ?? placeholder}</p>
+      <input
+        type={type}
+        placeholder={placeholder}
+        className={styles.input}
+        value={value}
+        onChange={onChange}
+      />
     </div>
-    
-    
   );
 };
 

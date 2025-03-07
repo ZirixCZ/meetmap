@@ -31,10 +31,6 @@ const RightFloaters = () => {
   return (
     <div className={styles.container}>
       <button onClick={navigateToAdmin}>Admin</button>
-      <button ref={bookmarkButtonRef} onClick={handleBookmarkOpen}>
-        <AddIcon />
-      </button>
-      {bookmarkOpen && <Meetup closeCallback={handleBookmarkOpen} />}
       <button ref={userButtonRef} onClick={handleUserOpen}>
         <User />
       </button>
