@@ -1,68 +1,72 @@
 import React from "react";
 
-// Define styles for the profile picture container and the plus icon
+// New styles to make the placeholder look modern and clickable
 const styles = {
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'left',
-    gap: '10px', // Space between label and circle
-  } as React.CSSProperties,
-
+    display: "flex",
+    flexDirection: "column" as "column",
+    alignItems: "center",
+    gap: "10px",
+    cursor: "pointer", // Make the entire container clickable
+  },
   circle: {
-    width: '80px', // Size of the circle
-    height: '80px', // Same height as width to make it a circle
-    borderRadius: '50%', // Full circle
-    backgroundColor: '#f0f0ff', // Light purple background
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    cursor: 'pointer', // Pointer cursor on hover
-  } as React.CSSProperties,
-
+    width: "100px",
+    height: "100px",
+    borderRadius: "50%",
+    backgroundColor: "#f0f0ff",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    border: "2px dashed #6C63FF",
+  },
   plusIcon: {
-    fontSize: '24px', // Size of the plus icon
-    color: '#6C63FF', // Purple color for the plus
-  } as React.CSSProperties,
-
+    fontSize: "36px",
+    color: "#6C63FF",
+  },
   label: {
-    fontSize: '14px',
-    fontWeight: 'bold',
-    color: '#333333', // Dark text for the label
-  } as React.CSSProperties
+    fontSize: "16px",
+    fontWeight: "bold" as "bold",
+    color: "#333333",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover" as "cover",
+  },
 };
 
 interface ProfilePicturePlaceholderProps {
   label?: string;
   circleColor?: string;
   iconColor?: string;
+  imageUrl?: string;
+  onClick?: () => void;
 }
 
 const ProfilePicturePlaceholder = (props: ProfilePicturePlaceholderProps) => {
   const {
-    label = 'Profilová fotka', // Default label text
-    circleColor = '#f0f0ff', // Default background color for the circle
-    iconColor = '#6C63FF', // Default color for the plus icon
+    label = "Profilová fotka",
+    circleColor = "#f0f0ff",
+    iconColor = "#6C63FF",
+    imageUrl,
+    onClick,
   } = props;
 
   return (
-    <div style={styles.container}>
+    <div style={styles.container} onClick={onClick}>
       <span style={styles.label}>{label}</span>
-      <div
-        style={{
-          ...styles.circle,
-          backgroundColor: circleColor, // Dynamic background color for the circle
-        }}
-      >
-        <span
-          className="material-icons"
-          style={{
-            ...styles.plusIcon,
-            color: iconColor, // Dynamic color for the plus icon
-          }}
-        >
-          +
-        </span>
+      <div style={{ ...styles.circle, backgroundColor: circleColor }}>
+        {imageUrl ? (
+          <img src={imageUrl} alt="Profile" style={styles.image} />
+        ) : (
+          <span
+            className="material-icons"
+            style={{ ...styles.plusIcon, color: iconColor }}
+          >
+            +
+          </span>
+        )}
       </div>
     </div>
   );
