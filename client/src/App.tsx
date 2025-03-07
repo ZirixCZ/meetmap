@@ -63,7 +63,7 @@ function App() {
   };
 
   return (
-    <UserContextProvider user={user}>
+    <UserContextProvider user={null} token={null}>
       <LeafletProvider>
         <RouterProvider router={router} />
       </LeafletProvider>

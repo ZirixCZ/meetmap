@@ -4,6 +4,7 @@ import styles from "./AuthDialog.module.css";
 import CustomButton from "./CustomButton";
 import ProfilePicturePlaceholder from "./ProfilePicturePlaceholder";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../../Constants/constants";
 
 const RegisterDialog = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const RegisterDialog = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (password !== confirmPassword) {
       alert("Hesla se neshodují.");
       return;
@@ -22,7 +23,29 @@ const RegisterDialog = () => {
     console.log("Name:", name);
     console.log("Email:", email);
     console.log("Password:", password);
-    // TODO: Add registration logic here
+    
+    const response = await fetch(apiUrl + "/users-create", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+      }),
+    })
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      const errorData = await response.json();
+      console.error("Registration failed:", errorData.message);
+      alert("Registration failed: " + errorData.message
+      );
+    }
+
     navigate("/map");
   };
 
