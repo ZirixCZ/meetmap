@@ -15,12 +15,15 @@ import { Marker as MarkerType } from "../../types";
 import userArrow from "../../assets/map-pin.png";
 import mapPin from "../../assets/pin.png";
 import newMeetupPNG from "../../assets/meetup.png";
+import gardenPng from "../../assets/Garden.png";
+import meetupHeaderPng from "../../assets/MeetupHeader.png";
 import MeetupData from "../../types/meetupData";
 import CustomButton from "../ui/AuthDialog/CustomButton";
 import Meetup from "../Meetup/Meetup";
 import { apiUrl } from "../../Constants/constants";
 import { useUser } from "../../contexts/UserContext";
 import { useGetMeetups } from "../../hooks/useGetMeetups";
+import { getIconByType } from "../../utils";
 
 // User Location Icon (uses an arrow to show direction)
 const userLocationIcon = new L.DivIcon({
@@ -39,6 +42,48 @@ const userLocationIcon = new L.DivIcon({
   iconAnchor: [8, 8], // Centers the dot properly
 });
 
+const createMeetupIcon = (iconUrl: string) => {
+  // return HTML div icon with two images layered
+  const baseIconUrl = "../../assets/qm5.png";
+
+  return L.divIcon({
+    html: `
+      <div style="
+        position: relative;
+        width: 90px;
+        height: 90px;
+      ">
+        
+        <img src="${baseIconUrl}" alt="Base Icon" style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        ">
+        <img src="${iconUrl}" alt="Overlay Icon" style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        ">
+<img src="${meetupHeaderPng}" alt="Header Icon" style="
+          position: absolute;
+          top: -15px;
+          left: 0;
+          width: 68px;
+          align-self: center;
+          aspect-ratio: 68/24;
+          left: 11%;
+        ">
+      </div>
+    `,
+    className: "", // Prevents Leaflet from applying default styles
+    iconSize: [20, 20],
+    iconAnchor: [10, 10], // Centers the icon properly
+  });
+};
 // Meetup Marker Icon
 const meetupIcon = new L.Icon({
   iconUrl: mapPin,
@@ -109,6 +154,7 @@ const Leaflet = () => {
     useState<LatLngExpression | null>(null);
 
   const meetups = useGetMeetups();
+  console.log("meetups", meetups.meetups);
 
   const [showMeetupDialog, setShowMeetupDialog] = useState(false);
 
@@ -143,6 +189,7 @@ const Leaflet = () => {
     console.log(data);
     setShowMeetupDialog(false);
     setShowPopup(false);
+    meetups.refetch();
   };
   const meetupDialogOnClose = () => {
     rightClickPos.current = null;
@@ -287,7 +334,7 @@ const Leaflet = () => {
               zIndexOffset={999}
               key={meetup.id}
               position={meetup?.point}
-              icon={newMeetupIcon}
+              icon={createMeetupIcon(getIconByType(meetup.eventType))}
             >
               <Popup>Meetup Location</Popup>
             </Marker>
