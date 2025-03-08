@@ -129,8 +129,22 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
           const indexTranslations =
             aqHourlyIndexTypeTranslation as AQ_Hourly_Index_Translation[];
 
-          // Mutate air pollution data.
-          const mutatedData2 = airPollution.features.map((item) => {
+
+            const airPollutionResponse = await fetch(
+              "https://api.golemio.cz/v2/airqualitystations?latlng=50.124935%2C14.457204&range=500000&limit=10000&offset=0&updatedSince=2019-05-18T07%3A38%3A37.000Z",
+              {
+                method: "GET",
+                headers: {
+                  accept: "application/json; charset=utf-8",
+                  "X-Access-Token":
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQwNiwiaWF0IjoxNzQxMzczMjYyLCJleHAiOjExNzQxMzczMjYyLCJpc3MiOiJnb2xlbWlvIiwianRpIjoiNWNlZjM0MTEtZDg5NC00ZDZlLWIxNDktNmQ5N2Q1ZTI3ZjZkIn0.JluCYgI0jkJNSbKiY-FhLKzCL33KqrfPEJU3Da4ZUaQ",
+                },
+              },
+            );// Mutate air pollution data.
+
+            const airPollution = await airPollutionResponse.json();
+
+          const mutatedData2 = airPollution.features.map((item: AirPollutionFeature) => {
             const coordinates = item.geometry.coordinates as [number, number];
             return {
               Name: item.properties.name || "No Name",
@@ -259,7 +273,7 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
             let nearestPollution: string | null = null;
             let minDistance = Infinity;
 
-            mutatedData2.forEach((pollutionMarker) => {
+            mutatedData2.forEach((pollutionMarker: any) => {
               if (marker.lat != null && marker.lng != null) {
                 const distance = getDistance(
                   marker.lat,
@@ -273,7 +287,7 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
                   nearestPollution = pollutionMarker.Pollution;
                 }
               }
-              if (minDistance > 50) {
+              if (minDistance > 25) {
                 nearestPollution = "neměřeno";
               }
             });
