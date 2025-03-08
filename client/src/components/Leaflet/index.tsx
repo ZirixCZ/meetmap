@@ -20,6 +20,7 @@ import CustomButton from "../ui/AuthDialog/CustomButton";
 import Meetup from "../Meetup/Meetup";
 import { apiUrl } from "../../Constants/constants";
 import { useUser } from "../../contexts/UserContext";
+import { useGetMeetups } from "../../hooks/useGetMeetups";
 
 // User Location Icon (uses an arrow to show direction)
 const userLocationIcon = new L.DivIcon({
@@ -34,10 +35,9 @@ const userLocationIcon = new L.DivIcon({
     "></div>
   `,
   className: "", // Prevents Leaflet from applying default styles
-  iconSize: [16, 16], 
+  iconSize: [16, 16],
   iconAnchor: [8, 8], // Centers the dot properly
 });
-
 
 // Meetup Marker Icon
 const meetupIcon = new L.Icon({
@@ -90,58 +90,55 @@ const LiveLocation = ({
     }
   }, [position, heading, map]);
 
-  return <Marker position={position} icon={userLocationIcon} zIndexOffset={1000}/>;
+  return (
+    <Marker position={position} icon={userLocationIcon} zIndexOffset={1000} />
+  );
 };
 
 const Leaflet = () => {
-  const user = useUser()
+  const user = useUser();
   const { markers, updateMarkersDebounce } = useLeafletContext();
   const [activeMarker, setActiveMarker] = useState<MarkerType | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(
     null,
   );
   const [heading, setHeading] = useState<number>(0);
-  const [meetups, setMeetups] = useState<
-    { id: number; position: [number, number] }[]
-  >([{ id: 1, position: [50.209722, 15.830473] }]);
   const rightClickPos = useRef<LatLngExpression | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedLocation, setSelectedLocation] =
     useState<LatLngExpression | null>(null);
 
+  const meetups = useGetMeetups();
+
   const [showMeetupDialog, setShowMeetupDialog] = useState(false);
 
   const dialogOnSubmit = async (data: MeetupData) => {
-    
     const response = await fetch(apiUrl + "/create-meetup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": user.token || "",
+        Authorization: user.token || "",
       },
       body: JSON.stringify({
-        "name": data.meetupName,
-        "date": data.date,
-        "begin_time": data.fromTime + ":00",
-        "end_time": data.toTime + ":00",
-        "lat": data.location[0],
-        "lon": data.location[1],
-        "public": data.isPublic,
-        "min_age": data.minimumAge,
-        "max_age": data.maximumAge,
-        "require_verification": !data.allowUnverifiedUsers,
-        "users": data.invited,
-        "description": data.meetupDesc
-      })
-      });
-
-
+        name: data.meetupName,
+        date: data.date,
+        begin_time: data.fromTime + ":00",
+        end_time: data.toTime + ":00",
+        lat: data.location[0],
+        lon: data.location[1],
+        public: data.isPublic,
+        min_age: data.minimumAge,
+        max_age: data.maximumAge,
+        require_verification: !data.allowUnverifiedUsers,
+        users: data.invited,
+        description: data.meetupDesc,
+      }),
+    });
 
     if (!response.ok) {
       console.error("Failed to create meetup", response.statusText);
       return;
     }
-
 
     console.log(data);
     setShowMeetupDialog(false);
@@ -184,6 +181,14 @@ const Leaflet = () => {
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
+  }, []);
+
+  useEffect(() => {
+    const meetups = fetch(apiUrl + "/get-meetups", {
+      headers: {
+        Authorization: user.token || "",
+      },
+    });
   }, []);
 
   useEffect(() => {
@@ -276,16 +281,17 @@ const Leaflet = () => {
           <Marker position={selectedLocation} icon={meetupIcon} />
         )}
 
-        {meetups.map((meetup) => (
-          <Marker
-            zIndexOffset={999}
-            key={meetup.id}
-            position={meetup.position}
-            icon={newMeetupIcon}
-          >
-            <Popup>Meetup Location</Popup>
-          </Marker>
-        ))}
+        {meetups.meetups?.length &&
+          meetups.meetups.map((meetup) => (
+            <Marker
+              zIndexOffset={999}
+              key={meetup.id}
+              position={meetup?.point}
+              icon={newMeetupIcon}
+            >
+              <Popup>Meetup Location</Popup>
+            </Marker>
+          ))}
 
         <MapView
           handleClick={handleClick}
