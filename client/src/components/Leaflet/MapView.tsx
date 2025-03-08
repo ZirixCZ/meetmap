@@ -8,7 +8,7 @@ import festivalIconUrl from "../../assets/Festivaly.svg";
 import theaterIconUrl from "../../assets/Divadla.svg";
 import cinemaIconUrl from "../../assets/Kina.svg";
 import sportIconUrl from "../../assets/Sport.svg";
-import gardenIconUrl from "../../assets/Garden.svg";
+import gardenIconUrl from "../../assets/gardenMarker.png";
 import measurementStationIconUrl from "../../assets/aq.png";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;

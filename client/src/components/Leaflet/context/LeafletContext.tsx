@@ -183,13 +183,11 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
           });
 
           // Combine all markers into one array.
-          const allMarkers = [
+          const markersToBePolluted = [
             ...mutatedData,
-            ...mutatedData2,
             ...mutatedGardenData,
           ];
-          setFetchedMarkers(allMarkers);
-          setMarkers(allMarkers);
+          
 
           // Example code to update pollution for places
           const getDistance = (
@@ -213,7 +211,7 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
           };
 
           // Example: for each place (mutatedData items), find the nearest pollution sensor.
-          mutatedData.forEach((marker: Marker) => {
+          markersToBePolluted.forEach((marker: Marker) => {
             let nearestPollution: string | null = null;
             let minDistance = Infinity;
 
@@ -235,10 +233,15 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
 
             marker.Pollution = nearestPollution;
           });
+          setFetchedMarkers([...markersToBePolluted, ...mutatedData2]);
+          setMarkers([...markersToBePolluted, ...mutatedData2]);
+          
         });
     } catch (error) {
       console.error("Error:", error);
     }
+   
+       
   };
 
   const updateMarkersDebounce = (
