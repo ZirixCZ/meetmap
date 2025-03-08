@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Camera, Castle, Palete, Song, StrongMan } from "../../svg";
+import { Camera, Castle, Garden, Palete, Song, StrongMan } from "../../svg";
 import { MarkerType } from "../../types";
 import { useLeafletContext } from "../Leaflet/context/LeafletContext";
 import Selector from "./components/Selector";
@@ -24,6 +24,7 @@ const Filters = () => {
     },
     { selected: false, name: "Kina", icon: <Camera />, key: "KINA" },
     { selected: false, name: "Sport", icon: <StrongMan />, key: "SPORT" },
+    { selected: false, name: "Zahrady", icon: <>🌳</>, key: "ZAHRADY" },
   ]);
 
   const handleChange = (index: number) => {
