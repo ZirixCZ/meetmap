@@ -83,13 +83,25 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
               },
             },
           );
-
           const gardenData = await gardenResponse.json();
           console.log("gardens", gardenData);
 
-          // Mutate first fetched places data.
+          const librariesResponse = await fetch(
+            "https://api.golemio.cz/v2/municipallibraries?latlng=50.124935%2C14.457204&range=50000&offset=0&updatedSince=2019-05-18T07%3A38%3A37.000Z",
+            {
+              method: "GET",
+              headers: {
+                accept: "application/json; charset=utf-8",
+                "X-Access-Token":
+                  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQwNiwiaWF0IjoxNzQxMzczMjYyLCJleHAiOjExNzQxMzczMjYyLCJpc3MiOiJnb2xlbWlvIiwianRpIjoiNWNlZjM0MTEtZDg5NC00ZDZlLWIxNDktNmQ5N2Q1ZTI3ZjZkIn0.JluCYgI0jkJNSbKiY-FhLKzCL33KqrfPEJU3Da4ZUaQ",
+              },
+            },
+          );
+          const librariesData = await librariesResponse.json();
+          console.log("libraries", librariesData);
+
+          // Mutate first fetched places (json from first fetch).
           const mutatedData = json.map((item: any) => ({
-            // Converting to Marker shape – using placeholders when needed.
             Name: item.name || "No Name",
             Description: item.description || "No description available",
             Accessibility:
@@ -108,9 +120,8 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
                 : "N/A",
             lat: item.Point ? item.Point.Lat : null,
             lng: item.Point ? item.Point.Lon : null,
-            Type: "PLACE", // default value for these places
+            Type: "PLACE",
             Pollution: "N/A",
-            // Also including any extra properties if needed.
             ...item,
           }));
 
@@ -135,7 +146,6 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
               Address: "N/A",
               lat: coordinates[1],
               lng: coordinates[0],
-              // Lookup the description via index code; if not found, set default placeholder.
               Pollution:
                 indexTranslations.find(
                   (item2) =>
@@ -147,8 +157,7 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
             };
           });
 
-          // NEW: Mutate gardenData to fit the Marker type.
-          // Assume gardenData has a "features" array with GeoJSON structure.
+          // Mutate garden data.
           const mutatedGardenData = gardenData.features.map((feature: any) => {
             const coordinates = feature.geometry.coordinates as [
               number,
@@ -165,11 +174,11 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
               AccessibilityNote: feature.properties.accessibilityNote || "N/A",
               Capacity: feature.properties.Capacity || 0,
               CapacityNote: feature.properties.CapacityNote || "N/A",
-              Phones: feature.properties.Phones || "N/A",
-              Email: feature.properties.Email || "N/A",
+              Phones: "N/A",
+              Email: "N/A",
               Web: feature.properties.url || "N/A",
-              Okres: feature.properties.Okres || "N/A",
-              Obce: feature.properties.Obce || "N/A",
+              Okres: "N/A",
+              Obce: "N/A",
               Address:
                 feature.properties.address &&
                 feature.properties.address.address_formatted
@@ -182,14 +191,48 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
             };
           });
 
+          // Mutate municipal libraries data.
+          const mutatedLibraryData = librariesData.features.map(
+            (feature: any) => {
+              const coordinates = feature.geometry.coordinates as [
+                number,
+                number,
+              ];
+              return {
+                Name: feature.properties.name || "No Name",
+                Description: "Municipal Library",
+                Accessibility: false,
+                AccessibilityNote: "N/A",
+                Capacity: 0,
+                CapacityNote: "N/A",
+                Phones: feature.properties.telephone || "N/A",
+                Email: feature.properties.email || "N/A",
+                Web: feature.properties.web || "N/A",
+                Okres: "N/A",
+                Obce: "N/A",
+                Address:
+                  feature.properties.address &&
+                  feature.properties.address.address_formatted
+                    ? feature.properties.address.address_formatted
+                    : "N/A",
+                lat: coordinates[1] || 0,
+                lng: coordinates[0] || 0,
+                Type: "KNIHOVNY",
+                Pollution: "N/A",
+              };
+            },
+          );
+
           // Combine all markers into one array.
           const markersToBePolluted = [
             ...mutatedData,
+            ...mutatedData2,
             ...mutatedGardenData,
+            ...mutatedLibraryData,
           ];
-          
 
           // Example code to update pollution for places
+
           const getDistance = (
             lat1: number,
             lon1: number,

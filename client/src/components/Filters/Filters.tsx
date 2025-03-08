@@ -25,6 +25,7 @@ const Filters = () => {
     { selected: false, name: "Kina", icon: <Camera />, key: "KINA" },
     { selected: false, name: "Sport", icon: <StrongMan />, key: "SPORT" },
     { selected: false, name: "Zahrady", icon: <>🌳</>, key: "ZAHRADY" },
+    { selected: false, name: "Knihovny", icon: <>📚</>, key: "KNIHOVNY" },
   ]);
 
   const handleChange = (index: number) => {

@@ -8,7 +8,8 @@ import festivalIconUrl from "../../assets/Festivaly.svg";
 import theaterIconUrl from "../../assets/Divadla.svg";
 import cinemaIconUrl from "../../assets/Kina.svg";
 import sportIconUrl from "../../assets/Sport.svg";
-import gardenIconUrl from "../../assets/gardenMarker.png";
+import gardenIconUrl from "../../assets/Garden.png";
+import libraryIconUrl from "../../assets/libraryIcon.png";
 import measurementStationIconUrl from "../../assets/aq.png";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -52,8 +53,10 @@ const MapView = (props: Props) => {
       case "MĚŘÍCÍ STANICE":
         return createIcon(measurementStationIconUrl);
       case "ZAHRADY":
+        console.log("zahrady", createIcon(gardenIconUrl));
         return createIcon(gardenIconUrl);
-
+      case "KNIHOVNY":
+        return createIcon(libraryIconUrl);
       default:
         return createIcon(baseIconUrl);
     }
