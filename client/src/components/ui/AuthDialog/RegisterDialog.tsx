@@ -8,6 +8,7 @@ import { apiUrl } from "../../../Constants/constants";
 
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { firebaseStorage } from "../../../Constants/firebase";
+import Logo from "../../../assets/Group 41.png";
 
 const RegisterDialog = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const RegisterDialog = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [progress, setProgress] = useState<number>(0);
   const [downloadURL, setDownloadURL] = useState<string>("");
+  const [Age, setAge] = useState(15);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -87,12 +89,12 @@ const RegisterDialog = () => {
     const response = await fetch(apiUrl + "/users-create", {
       method: "POST",
       body: JSON.stringify({
-        name: name,
         email: email,
         username: name + Math.floor(Math.random() * 1000),
-        displayName: name + Math.floor(Math.random() * 1000),
+        displayName: name,
         password: password,
         profile_image_url: imageUrl,
+        age: Age,
       }),
     });
 
@@ -115,21 +117,7 @@ const RegisterDialog = () => {
   return (
     <div className={styles.center}>
       <div className={styles["justify-center"]} style={{ width: "20rem" }}>
-        <h1 className={styles.heading}>
-          meet<span className={styles.hk}>.map</span>
-        </h1>
-        <ProfilePicturePlaceholder
-          onClick={handlePlaceholderClick}
-          imageUrl={downloadURL} // will show the user’s image if exists; otherwise, the add icon.
-          label="Profilová fotka"
-        />
-        <input
-          type="file"
-          onChange={handleFileChange}
-          ref={fileInputRef}
-          style={{ display: "none" }}
-          accept="image/*"
-        />
+      <img src={Logo} alt="logo"  style={{width: 300, alignSelf: "center", marginTop: 100}}/>
 
         <InputField
           type="text"
@@ -138,12 +126,35 @@ const RegisterDialog = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        
         <InputField
           type="email"
           placeholder="Zadejte email"
           title="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+        />
+        <ProfilePicturePlaceholder
+          onClick={handlePlaceholderClick}
+          imageUrl={downloadURL} // will show the user’s image if exists; otherwise, the add icon.
+          label="Profilová fotka"
+          className={styles.profilePicture}
+          
+        />
+        <input
+          type="file"
+          onChange={handleFileChange}
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          accept="image/*"
+        />
+        <InputField
+          type="number"
+          placeholder="Zadejte váš věk..."
+          title="Věk"
+          value={Age.toString()}
+          onChange={(e) => setAge(parseInt(e.target.value) < 15 ? 15 : parseInt(e.target.value) > 130 ? 130 : parseInt(e.target.value))}
+          
         />
         <InputField
           type="password"
