@@ -46,15 +46,16 @@ export function UserContextProvider({
   const [userState, setUserState] = useState<User | null>(user);
   const [tokenState, setTokenState] = useState<string | null>(token);
 
-  function setUser(newUser: User) {
+  function setUser(newUser: any) {
     window.localStorage.setItem("user", JSON.stringify(newUser));
-    console.log({ user: newUser["user"] });
-    setUserState({ user: newUser["user"] });
+    console.log({ user: newUser });
+    setUserState({ user: newUser });
   }
 
   function setToken(newToken: string) {
     window.localStorage.setItem("token", newToken);
     setTokenState(newToken);
+    console.log("settoken", newToken);
   }
 
   useEffect(() => {
