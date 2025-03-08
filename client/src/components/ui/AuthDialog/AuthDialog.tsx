@@ -5,6 +5,7 @@ import CustomButton from "./CustomButton";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../contexts/UserContext";
 import { apiUrl } from "../../../Constants/constants";
+import Logo from "../../../assets/Group 41.png"
 
 const AuthDialog = () => {
   const navigate = useNavigate();
@@ -29,7 +30,6 @@ const AuthDialog = () => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("token", data.token);
       const userInfo = await fetch(apiUrl + "/user-info", {
         headers: {
           Authorization: `${data.token}`,
@@ -52,9 +52,7 @@ const AuthDialog = () => {
   return (
     <div className={styles.center}>
       <div className={styles["justify-center"]} style={{ width: "20rem" }}>
-        <h1 className={styles.heading}>
-          meet<span className={styles.hk}>.map</span>
-        </h1>
+        <img src={Logo} alt="logo"  style={{width: 300, alignSelf: "center"}}/>
         <InputField
           type="email"
           placeholder="Email"

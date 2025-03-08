@@ -13,6 +13,7 @@ import { User } from "./types/user";
 import { RightCornerDialogProvider } from "./contexts/RightCornerDialogOpened";
 import { apiUrl } from "./Constants/constants";
 import { useEffect } from "react";
+import AuthGuard from "./authGuard";
 
 const router = createBrowserRouter([
   {
@@ -22,17 +23,22 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <MapRoute />,
+        element: <>
+        <AuthGuard/>
+        <MapRoute /></>,
         errorElement: <ErrorRoute />,
       },
       {
         path: "admin",
-        element: <AdminRoute />,
+
+        element: <><AuthGuard/><AdminRoute /></>,
         errorElement: <ErrorRoute />,
       },
       {
         path: "map",
-        element: <MapRoute />,
+        element: <>
+        <AuthGuard/>
+        <MapRoute /></>,
         errorElement: <ErrorRoute />,
       },
       {
@@ -42,7 +48,9 @@ const router = createBrowserRouter([
       },
       {
         path: "search",
-        element: <SearchOverlayRoute />,
+        element: <>
+        <AuthGuard/>
+        <SearchOverlayRoute /></>,
         errorElement: <ErrorRoute />,
       },
       {

@@ -102,8 +102,9 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
 
           // Mutate first fetched places (json from first fetch).
           const mutatedData = json.map((item: any) => ({
-            Name: item.name || "No Name",
-            Description: item.description || "No description available",
+            // Converting to Marker shape – using placeholders when needed.
+            Name: item.name || "Není k dispozici název",
+            Description: item.description || "Není k dispozici popis",
             Accessibility:
               item.Accessibility != null ? Boolean(item.Accessibility) : false,
             AccessibilityNote: "N/A",
@@ -133,7 +134,7 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
             const coordinates = item.geometry.coordinates as [number, number];
             return {
               Name: item.properties.name || "No Name",
-              Description: "Air Pollution Sensor",
+              Description: "Měřící stanice kvality ovzduší",
               Accessibility: false,
               AccessibilityNote: "N/A",
               Capacity: 0,
@@ -164,9 +165,9 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
               number,
             ];
             return {
-              Name: feature.properties.name || "No Name",
+              Name: feature.properties.name || "Není k dispozici název",
               Description:
-                feature.properties.description || "No description available",
+                feature.properties.description || "Není k dispozici popis",
               Accessibility:
                 feature.properties.Accessibility != null
                   ? Boolean(feature.properties.Accessibility)
@@ -199,8 +200,8 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
                 number,
               ];
               return {
-                Name: feature.properties.name || "No Name",
-                Description: "Municipal Library",
+                Name: feature.properties.name || "Není k dispozici název",
+                Description: "Městská knihovna",
                 Accessibility: false,
                 AccessibilityNote: "N/A",
                 Capacity: 0,
@@ -271,6 +272,9 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
                   minDistance = distance;
                   nearestPollution = pollutionMarker.Pollution;
                 }
+              }
+              if (minDistance > 50) {
+                nearestPollution = "neměřeno";
               }
             });
 

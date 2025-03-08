@@ -5,11 +5,14 @@ const styles = {
   container: {
     display: "flex",
     flexDirection: "column" as "column",
-    alignItems: "center",
+    alignItems: "start",
+    justifyContent: "start",
     gap: "10px",
     cursor: "pointer", // Make the entire container clickable
+    margin: "20px 0",
   },
   circle: {
+    
     width: "100px",
     height: "100px",
     borderRadius: "50%",
@@ -42,6 +45,7 @@ interface ProfilePicturePlaceholderProps {
   iconColor?: string;
   imageUrl?: string;
   onClick?: () => void;
+  className?: string;
 }
 
 const ProfilePicturePlaceholder = (props: ProfilePicturePlaceholderProps) => {
@@ -51,10 +55,11 @@ const ProfilePicturePlaceholder = (props: ProfilePicturePlaceholderProps) => {
     iconColor = "#6C63FF",
     imageUrl,
     onClick,
+    className,
   } = props;
 
   return (
-    <div style={styles.container} onClick={onClick}>
+    <div style={{ ...styles.container, ...(className ? { className } : {}) }} onClick={onClick}>
       <span style={styles.label}>{label}</span>
       <div style={{ ...styles.circle, backgroundColor: circleColor }}>
         {imageUrl ? (

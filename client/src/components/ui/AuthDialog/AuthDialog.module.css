@@ -32,3 +32,7 @@
   line-height: 32px;
   align-self: center;
 }
+
+.profilePicture {
+  align-items: start;
+}
