@@ -200,8 +200,8 @@ export const LeafletProvider = (props: LeafletProviderProps) => {
                 number,
               ];
               return {
-                Name: feature.properties.name || "No Name",
-                Description: "Municipal Library",
+                Name: feature.properties.name || "Není k dispozici název",
+                Description: "Městská knihovna",
                 Accessibility: false,
                 AccessibilityNote: "N/A",
                 Capacity: 0,
