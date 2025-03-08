@@ -23,10 +23,21 @@ import { useUser } from "../../contexts/UserContext";
 
 // User Location Icon (uses an arrow to show direction)
 const userLocationIcon = new L.DivIcon({
-  html: `<img src="${userArrow}" style="width:32px; height:32px; transform: rotate(0deg);" id="user-marker">`,
-  iconSize: [32, 32],
-  className: "user-location-icon",
+  html: `
+    <div style="
+      width: 16px;
+      height: 16px;
+      background-color: rgba(0, 122, 255, 0.7);
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 8px rgba(0, 122, 255, 0.8);
+    "></div>
+  `,
+  className: "", // Prevents Leaflet from applying default styles
+  iconSize: [16, 16], 
+  iconAnchor: [8, 8], // Centers the dot properly
 });
+
 
 // Meetup Marker Icon
 const meetupIcon = new L.Icon({

@@ -42,6 +42,12 @@
   }
 }
 
+@media (max-width: 768px) {
+  .filterContainer {
+    margin: 0 6rem 0 3rem;
+  }
+}
+
 .filterContainer::-webkit-scrollbar {
   display: none;
 }

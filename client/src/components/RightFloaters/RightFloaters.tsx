@@ -37,7 +37,6 @@ const RightFloaters = () => {
     <div className={styles.container}>
       {userOpen ? null : (
         <>
-          <button onClick={navigateToAdmin}>Admin</button>
           <button ref={userButtonRef} onClick={handleUserOpen}>
             <User />
           </button>
