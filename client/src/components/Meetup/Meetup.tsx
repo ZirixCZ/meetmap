@@ -199,11 +199,18 @@ const Meetup = (props: Props) => {
             : () => {
                 props.onSubmit({
                   meetupName,
+                  meetupDesc,
+                  minimumAge,
+                  maximumAge,
+                  isPublic,
+                  allowUnverifiedUsers,
+                  invited: [],
                   date,
                   fromTime,
                   toTime,
                   eventType,
                   location: props.location,
+            
                 });
                 props.closeCallback();
               }

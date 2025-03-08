@@ -16,3 +16,9 @@
     border: 0.125rem rgba(109, 101, 252, 1) solid;
   }
 }
+
+@media (max-width: 768px) {
+  .container {
+    margin: 2rem 0 2rem 0;
+  }
+}

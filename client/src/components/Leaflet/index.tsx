@@ -18,6 +18,8 @@ import newMeetupPNG from "../../assets/meetup.png";
 import MeetupData from "../../types/meetupData";
 import CustomButton from "../ui/AuthDialog/CustomButton";
 import Meetup from "../Meetup/Meetup";
+import { apiUrl } from "../../Constants/constants";
+import { useUser } from "../../contexts/UserContext";
 
 // User Location Icon (uses an arrow to show direction)
 const userLocationIcon = new L.DivIcon({
@@ -81,6 +83,7 @@ const LiveLocation = ({
 };
 
 const Leaflet = () => {
+  const user = useUser()
   const { markers, updateMarkersDebounce } = useLeafletContext();
   const [activeMarker, setActiveMarker] = useState<MarkerType | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(
@@ -97,8 +100,38 @@ const Leaflet = () => {
 
   const [showMeetupDialog, setShowMeetupDialog] = useState(false);
 
-  const dialogOnSubmit = (data: MeetupData) => {
-    //TODO: create meetup
+  const dialogOnSubmit = async (data: MeetupData) => {
+    
+    const response = await fetch(apiUrl + "/create-meetup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": user.token || "",
+      },
+      body: JSON.stringify({
+        "name": data.meetupName,
+        "date": data.date,
+        "begin_time": data.fromTime + ":00",
+        "end_time": data.toTime + ":00",
+        "lat": data.location[0],
+        "lon": data.location[1],
+        "public": data.isPublic,
+        "min_age": data.minimumAge,
+        "max_age": data.maximumAge,
+        "require_verification": !data.allowUnverifiedUsers,
+        "users": data.invited,
+        "description": data.meetupDesc
+      })
+      });
+
+
+
+    if (!response.ok) {
+      console.error("Failed to create meetup", response.statusText);
+      return;
+    }
+
+
     console.log(data);
     setShowMeetupDialog(false);
     setShowPopup(false);
