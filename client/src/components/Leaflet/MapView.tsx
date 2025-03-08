@@ -8,6 +8,7 @@ import festivalIconUrl from "../../assets/Festivaly.svg";
 import theaterIconUrl from "../../assets/Divadla.svg";
 import cinemaIconUrl from "../../assets/Kina.svg";
 import sportIconUrl from "../../assets/Sport.svg";
+import gardenIconUrl from "../../assets/Garden.svg";
 import measurementStationIconUrl from "../../assets/aq.png";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -50,6 +51,9 @@ const MapView = (props: Props) => {
         return createIcon(sportIconUrl);
       case "MĚŘÍCÍ STANICE":
         return createIcon(measurementStationIconUrl);
+      case "ZAHRADY":
+        return createIcon(gardenIconUrl);
+
       default:
         return createIcon(baseIconUrl);
     }
@@ -58,7 +62,16 @@ const MapView = (props: Props) => {
   useEffect(() => {
     if (!props.markers?.length) {
       console.log("no markers");
-      props.updateMarkers({ bounds: new LatLngBounds([[0, 0], [100, 90]]), zoom: 1 }, 0);
+      props.updateMarkers(
+        {
+          bounds: new LatLngBounds([
+            [0, 0],
+            [100, 90],
+          ]),
+          zoom: 1,
+        },
+        0,
+      );
       return;
     }
 
@@ -77,7 +90,6 @@ const MapView = (props: Props) => {
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        
       />
       {props?.markers?.map((marker, index) => (
         <Marker
@@ -90,7 +102,9 @@ const MapView = (props: Props) => {
             },
           }}
         >
-          <Popup>{marker.Type === "MĚŘÍCÍ STANICE" ? "Měřící stanice":marker.Name}</Popup>
+          <Popup>
+            {marker.Type === "MĚŘÍCÍ STANICE" ? "Měřící stanice" : marker.Name}
+          </Popup>
         </Marker>
       ))}
     </div>
