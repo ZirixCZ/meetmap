@@ -27,10 +27,10 @@ const userLocationIcon = new L.DivIcon({
     <div style="
       width: 16px;
       height: 16px;
-      background-color: rgba(0, 122, 255, 0.7);
+      background-color: rgba(109, 101, 252, 1);
       border-radius: 50%;
       border: 3px solid white;
-      box-shadow: 0 0 8px rgba(0, 122, 255, 0.8);
+      box-shadow: 0 0 8px rgba(109, 101, 252, 1);
     "></div>
   `,
   className: "", // Prevents Leaflet from applying default styles
@@ -90,7 +90,7 @@ const LiveLocation = ({
     }
   }, [position, heading, map]);
 
-  return <Marker position={position} icon={userLocationIcon} />;
+  return <Marker position={position} icon={userLocationIcon} zIndexOffset={1000}/>;
 };
 
 const Leaflet = () => {
