@@ -14,6 +14,33 @@
   overflow-x: hidden; /* Hide horizontal overflow */
 }
 
+.checkbox {
+  display: flex;
+  flex-direction: row !important;
+  align-items: baseline;
+  margin-bottom: 0 !important; 
+
+ 
+  gap: 0.5rem;
+}
+.fetchedUsersItemContainer {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  align-items: center;
+  flex-direction: row;
+  gap: 1rem;
+
+  & > img {
+    border-radius: 100%;
+    margin-left: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  & > p {
+    font-size: 14px;
+  }}
 .timeFields {
   display: flex;
   flex-direction: row;

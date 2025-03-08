@@ -9,6 +9,7 @@ import cx from "classnames";
 import PlacesList from "./PlacesList";
 import MeetupData from "../../types/meetupData";
 import { LatLngExpression } from "leaflet";
+import { useGetFriends } from "../../hooks/useGetFriends";
 
 interface Props {
   onSubmit: (data: MeetupData) => void;
@@ -17,15 +18,22 @@ interface Props {
 }
 
 const Meetup = (props: Props) => {
+  const { users: friends, refetch: refetchFriends } = useGetFriends();
+
   const [phase, setPhase] = useState(0);
-  const [invited1, setInvited1] = useState(false);
-  const [invited2, setInvited2] = useState(false);
+  const [invited, setInvited] = useState()<boolean[]>(false);
+  
 
   const [meetupName, setMeetupName] = useState('');
   const [date, setDate] = useState('');
   const [fromTime, setFromTime] = useState('');
   const [toTime, setToTime] = useState('');
   const [eventType, setEventType] = useState('');
+  const [minimumAge, setMinimumAge] = useState(18);
+  const [maximumAge, setMaximumAge] = useState(100);
+  const [meetupDesc, setMeetupDesc] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
+  const [allowUnverifiedUsers, setAllowUnverifiedUsers] = useState(false);
 
   const handleInvite = (invitedSetter: React.Dispatch<React.SetStateAction<boolean>>, invited: boolean) => {
     invitedSetter(!invited);
@@ -51,6 +59,14 @@ const Meetup = (props: Props) => {
               value={meetupName}
               onChange={(e) => setMeetupName(e.target.value)}
             />
+            <InputField 
+              type="textarea" 
+              title="Popis meetupu" 
+              placeholder="Zadejte popis..." 
+              value={meetupDesc}
+              onChange={(e) => setMeetupDesc(e.target.value)}
+            />
+
             <div className={styles.content}>
               <InputField 
                 type="date" 
@@ -98,31 +114,50 @@ const Meetup = (props: Props) => {
       
         
       {
-        phase === 2 && (
+        
+        phase === 3 && (
           <div>
             Pozvat přátele
             <div className={styles.gap}></div>
             <div className={styles.content}>
-              <img src="/assets/mockpfp.jpg" alt="Profile" />
-              <div className={styles.contentActions}>
-                <h3>Matěj Tobiáš Moravec</h3>
-                <a onClick={() => handleInvite(setInvited1, invited1)} className={styles.green}>{invited1 ? "pozvání odesláno" : "pozvat"}</a>
-              </div>
-            </div>
-            <div className={styles.content}>
-              <img src="/assets/mockpfp.jpg" alt="Profile" />
-              <div className={styles.contentActions}>
-                <h3>Tomáš Kalhous</h3>
-                <a onClick={() => handleInvite(setInvited2, invited2)} className={styles.green}>{invited2 ? "pozvání odesláno" : "pozvat"}</a>
-              </div>
-            </div>
-          </div>
-        )
-      }
+              
+                
+      
       {
-        phase === 3 && (
+        phase === 2 && (
           <div>
-            <PlacesList />
+            <InputField 
+              type="number" 
+              title="Minimální věk" 
+              placeholder="Zadejte minimální věk..." 
+              value={minimumAge.toString()}
+              onChange={
+                (e) => setMinimumAge(prev => parseInt(e.target.value) < 0 || parseInt(e.target.value) > maximumAge ? prev : parseInt(e.target.value))
+              }></InputField>
+            <InputField
+              type="number"
+              title="Maximální věk"
+              placeholder="Zadejte maximální věk..."
+              value={maximumAge.toString()}
+              onChange={
+                (e) => setMaximumAge(prev => parseInt(e.target.value) < 0 || parseInt(e.target.value) < minimumAge ? prev : parseInt(e.target.value))
+              }></InputField>
+              <InputField
+                type="checkbox"
+                title="Veřejný meetup"
+                placeholder="Veřejný meetup"
+                value={isPublic.toString()}
+                onChange={(e) => setIsPublic(e.target.value === "true" ? true : false)}
+                className={styles.checkbox}
+              ></InputField>
+              <InputField
+                type="checkbox"
+                title="Povolit neověřené uživatele"
+                placeholder="Povolit neověřené uživatele"
+                value={allowUnverifiedUsers.toString()}
+                onChange={(e) => setAllowUnverifiedUsers(e.target.value === "true" ? true : false)}
+                className={styles.checkbox}
+              ></InputField>
           </div>
         )
       }
