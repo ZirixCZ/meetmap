@@ -36,6 +36,6 @@ export const getIconByType = (type: string) => {
     case "KNIHOVNY":
       return libraryIconUrl;
     default:
-      return baseIconUrl;
+      return libraryIconUrl;
   }
 };

@@ -80,8 +80,8 @@ const createMeetupIcon = (iconUrl: string) => {
       </div>
     `,
     className: "", // Prevents Leaflet from applying default styles
-    iconSize: [20, 20],
-    iconAnchor: [10, 10], // Centers the icon properly
+    iconSize: [90, 90],
+    iconAnchor: [45, 90], // Centers the icon properly
   });
 };
 // Meetup Marker Icon
@@ -170,8 +170,10 @@ const Leaflet = () => {
         date: data.date,
         begin_time: data.fromTime + ":00",
         end_time: data.toTime + ":00",
-        lat: data.location[0],
-        lon: data.location[1],
+        point: {
+          lat: data.location[0],
+          lon: data.location[1],
+        },
         public: data.isPublic,
         min_age: data.minimumAge,
         max_age: data.maximumAge,
