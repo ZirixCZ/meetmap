@@ -47,8 +47,24 @@ func (uu *UserUsecase) CreateUser(ctx context.Context, user domain.UserData, pas
 	return stored, nil
 }
 
-func (uu *UserUsecase) GetByUsernameSimilar(ctx context.Context, username string) ([]domain.User, error) {
-	return uu.store.GetUsersByUsernamePattern(ctx, username)
+func (uu *UserUsecase) GetByUsernameSimilar(ctx context.Context, username string, callingUser domain.User) ([]domain.Relationship, error) {
+	return uu.store.GetUsersByUsernamePattern(ctx, username, callingUser)
+}
+
+func (uu *UserUsecase) AddFriend(ctx context.Context, from, to int64) error {
+	return uu.store.AddFriend(ctx, from, to)
+}
+
+func (uu *UserUsecase) GetFriendRequests(ctx context.Context, userId int64) ([]domain.User, error) {
+	return uu.store.GetFriendRequests(ctx, userId)
+}
+
+func (uu *UserUsecase) ChangeFriendship(ctx context.Context, from, to int64, status string) error {
+	return uu.store.ChangeFriendship(ctx, from, to, status)
+}
+
+func (uu *UserUsecase) GetFriends(ctx context.Context, userId int64) ([]domain.User, error) {
+	return uu.store.GetFriends(ctx, userId)
 }
 
 func (uu *UserUsecase) GetUserById(ctx context.Context, Id int64) (*domain.User, error) {

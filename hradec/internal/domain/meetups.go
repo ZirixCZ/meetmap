@@ -3,10 +3,18 @@ package domain
 import "time"
 
 type MeetupCreateReq struct {
-	Name    string
-	UserIds []int64
-	PlaceId string
-	Time    time.Time
+	Name                string
+	Description         *string
+	Type                string
+	Date                time.Time
+	BeginTime           time.Time
+	EndTime             time.Time
+	Point               Pin
+	Public              bool
+	MinAge              int64
+	MaxAge              int64
+	RequireVerification bool
+	Users               []int64
 }
 
 type MeetupUser struct {
@@ -15,8 +23,16 @@ type MeetupUser struct {
 }
 
 type Meetup struct {
-	Name  string
-	Users MeetupUser
-	Place Place
-	Time  int64
+	ID                  int64
+	Name                string
+	Description         *string
+	Type                string
+	Date                time.Time
+	BeginTime           time.Time
+	EndTime             time.Time
+	Point               Pin
+	Public              bool
+	MinAge              int64
+	MaxAge              int64
+	RequireVerification bool
 }

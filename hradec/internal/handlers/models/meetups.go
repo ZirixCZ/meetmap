@@ -1,10 +1,18 @@
 package models
 
 type MeetupCreateReq struct {
-	Name    string  `json:"name"`
-	UserIds []int64 `json:"user_ids"`
-	PlaceId string  `json:"place_id"`
-	Time    int64   `json:"time"`
+	Name                string  `json:"name"`
+	Description         *string `json:"description"`
+	Type                string  `json:"type"`
+	Date                string  `json:"date"`
+	BeginTime           string  `json:"begin_time"`
+	EndTime             string  `json:"end_time"`
+	Point               Pin     `json:"point"`
+	Public              bool    `json:"public"`
+	MinAge              int64   `json:"min_age"`
+	MaxAge              int64   `json:"max_age"`
+	RequireVerification bool    `json:"require_verification"`
+	Users               []int64 `json:"users"`
 }
 
 type MeetupUser struct {
@@ -13,8 +21,20 @@ type MeetupUser struct {
 }
 
 type Meetup struct {
-	Name  string     `json:"name"`
-	Users MeetupUser `json:"users"`
-	Place Place      `json:"place"`
-	Time  int64      `json:"time"`
+	Id                  int64   `json:"id"`
+	Name                string  `json:"name"`
+	Description         *string `json:"description"`
+	Type                string  `json:"type"`
+	Date                string  `json:"date"`
+	BeginTime           string  `json:"begin_time"`
+	EndTime             string  `json:"end_time"`
+	Point               Pin     `json:"point"`
+	Public              bool    `json:"public"`
+	MinAge              int64   `json:"min_age"`
+	MaxAge              int64   `json:"max_age"`
+	RequireVerification bool    `json:"require_verification"`
+}
+
+type AcceptMeetupInput struct {
+	Id int64 `json:"id"`
 }

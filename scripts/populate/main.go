@@ -72,9 +72,9 @@ func run() error {
 func mapToDB(places []Place) []model.Places {
 	result := []model.Places{}
 	for _, place := range places {
-		if place.Obce != "Hradec Králové" {
-			continue
-		}
+		// if place.Obce != "Hradec Králové" {
+		// 	continue
+		// }
 		// Use PostGIS function to make a point
 		fmt.Printf("ST_MakePoint(%f, %f)", place.Point.Lon, place.Point.Lat)
 		var capacity32 *int32 = nil
@@ -113,79 +113,90 @@ func main() {
 
 func getAllPlaces() ([]Place, error) {
 	result := []Place{}
-	places, err := parsePlaces("../../hradec/migrations/csvs/Hudební_kluby_a_festival_parky_-7703215986117040335.csv",
-		"KLUBY_FESTIVALY", 0, 26, toPtr(3), 7, 22, 11, 15, 25, 24, 17, 18, nil, nil, toPtr(8), toPtr(4), toPtr(5), toPtr(6))
-	if err != nil {
-		return nil, err
-	}
-	result = append(result, places...)
 
-	places, err = parsePlaces("../../hradec/migrations/csvs/Kina_7325494378020973866.csv",
-		"KINA", 0, 25, nil, 3, 21, 10, 14, 24, 23, 16, 17, nil, nil, toPtr(4), toPtr(5), nil, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	result = append(result, places...)
-	places, err = parsePlaces("../../hradec/migrations/csvs/Národní_kulturní_památky_bodové_objekty_6158076928879444772.csv",
+	places, err := parsePlaces("../../hradec/migrations/csvs/out_PAMATKY_Kulturní_místa___Cultural_places.csv",
 		"PAMATKY",
-		0, 22, toPtr(1), 0, 18, 7, 11, 21, 20, 13, 14, nil, nil, nil, nil, nil, nil)
+		1, 0, toPtr(2), 3, 4, 5, 6, 7, 8, 9, 10, []int{11}, nil, nil, nil, nil, nil)
+	if err != nil {
+		return nil, err
+	}
+	result = append(result, places...)
 
-	if err != nil {
-		return nil, err
-	}
-	result = append(result, places...)
-	places, err = parsePlaces("../../hradec/migrations/csvs/Pivovary_-340792773380756746.csv",
-		"PIVOVARY",
-		0, 29, toPtr(5), 4, 19, 8, 12, 28, 27, 14, 15, []int{20, 21, 22}, toPtr(24), nil, toPtr(2), nil, nil)
-	if err != nil {
-		return nil, err
-	}
-	result = append(result, places...)
-	places, err = parsePlaces("../../hradec/migrations/csvs/Divadla_a_filharmonie_2818140482217729379.csv",
-		"DIVADLA_FILHARMONIE",
-		0, 27, toPtr(2), 6, 21, 10, 14, 26, 25, 16, 17, []int{22}, toPtr(23), toPtr(7), toPtr(3), toPtr(5), nil)
-	if err != nil {
-		return nil, err
-	}
-	result = append(result, places...)
-	places, err = parsePlaces("../../hradec/migrations/csvs/Muzea_a_galerie_-156929117348245312.csv",
-		"MUZEA_GALERIE",
-		0, 24, toPtr(6), 3, 20, 9, 13, 23, 22, 15, 16, nil, nil, toPtr(4), toPtr(5), nil, nil)
-	if err != nil {
-		return nil, err
-	}
-	result = append(result, places...)
-	places, err = parsePlaces("../../hradec/migrations/csvs/Technické_památky_-7149205952045496218.csv",
-		"PAMATKY",
-		0, 20, toPtr(1), 0, 15, 4, 8, 19, 18, 10, 11, []int{16}, nil, nil, nil, nil, nil)
-	if err != nil {
-		return nil, err
-	}
-	result = append(result, places...)
-	places, err = parsePlaces("../../hradec/migrations/csvs/Letecké_sporty_8959676097614550187.csv",
-		"SPORT",
-		0, 30, toPtr(5), 3, 19, 8, 12, 29, 28, 14, 15, []int{20, 21, 22, 23}, toPtr(25), nil, toPtr(2), nil, nil)
-	if err != nil {
-		return nil, err
-	}
-	result = append(result, places...)
-	places, err = parsePlaces("../../hradec/migrations/csvs/Ostatní_letní_sporty_-6176368377486830231.csv",
-		"SPORT",
-		0, 32, toPtr(5), 4, 19, 8, 12, 31, 30, 14, 15, []int{20, 21, 22, 23, 24}, toPtr(26), nil, toPtr(2), nil, nil)
-
-	if err != nil {
-		return nil, err
-	}
-	result = append(result, places...)
-	places, err = parsePlaces("../../hradec/migrations/csvs/Zámky_3381043052573979413.csv",
-		"PAMATKY",
-		0, 19, toPtr(1), 0, 15, 4, 8, 18, 17, 10, 11, nil, nil, nil, nil, nil, nil)
-	if err != nil {
-		return nil, err
-	}
-	result = append(result, places...)
 	return result, nil
+
+	// places, err := parsePlaces("../../hradec/migrations/csvs/Hudební_kluby_a_festival_parky_-7703215986117040335.csv",
+	// 	"KLUBY_FESTIVALY", 0, 26, toPtr(3), 7, 22, 11, 15, 25, 24, 17, 18, nil, nil, toPtr(8), toPtr(4), toPtr(5), toPtr(6))
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// result = append(result, places...)
+
+	// places, err = parsePlaces("../../hradec/migrations/csvs/Kina_7325494378020973866.csv",
+	// 	"KINA", 0, 25, nil, 3, 21, 10, 14, 24, 23, 16, 17, nil, nil, toPtr(4), toPtr(5), nil, nil)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// result = append(result, places...)
+	// places, err = parsePlaces("../../hradec/migrations/csvs/Národní_kulturní_památky_bodové_objekty_6158076928879444772.csv",
+	// 	"PAMATKY",
+	// 	0, 22, toPtr(1), 0, 18, 7, 11, 21, 20, 13, 14, nil, nil, nil, nil, nil, nil)
+
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// result = append(result, places...)
+	// places, err = parsePlaces("../../hradec/migrations/csvs/Pivovary_-340792773380756746.csv",
+	// 	"PIVOVARY",
+	// 	0, 29, toPtr(5), 4, 19, 8, 12, 28, 27, 14, 15, []int{20, 21, 22}, toPtr(24), nil, toPtr(2), nil, nil)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// result = append(result, places...)
+	// places, err = parsePlaces("../../hradec/migrations/csvs/Divadla_a_filharmonie_2818140482217729379.csv",
+	// 	"DIVADLA_FILHARMONIE",
+	// 	0, 27, toPtr(2), 6, 21, 10, 14, 26, 25, 16, 17, []int{22}, toPtr(23), toPtr(7), toPtr(3), toPtr(5), nil)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// result = append(result, places...)
+	// places, err = parsePlaces("../../hradec/migrations/csvs/Muzea_a_galerie_-156929117348245312.csv",
+	// 	"MUZEA_GALERIE",
+	// 	0, 24, toPtr(6), 3, 20, 9, 13, 23, 22, 15, 16, nil, nil, toPtr(4), toPtr(5), nil, nil)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// result = append(result, places...)
+	// places, err = parsePlaces("../../hradec/migrations/csvs/Technické_památky_-7149205952045496218.csv",
+	// 	"PAMATKY",
+	// 	0, 20, toPtr(1), 0, 15, 4, 8, 19, 18, 10, 11, []int{16}, nil, nil, nil, nil, nil)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// result = append(result, places...)
+	// places, err = parsePlaces("../../hradec/migrations/csvs/Letecké_sporty_8959676097614550187.csv",
+	// 	"SPORT",
+	// 	0, 30, toPtr(5), 3, 19, 8, 12, 29, 28, 14, 15, []int{20, 21, 22, 23}, toPtr(25), nil, toPtr(2), nil, nil)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// result = append(result, places...)
+	// places, err = parsePlaces("../../hradec/migrations/csvs/Ostatní_letní_sporty_-6176368377486830231.csv",
+	// 	"SPORT",
+	// 	0, 32, toPtr(5), 4, 19, 8, 12, 31, 30, 14, 15, []int{20, 21, 22, 23, 24}, toPtr(26), nil, toPtr(2), nil, nil)
+
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// result = append(result, places...)
+	// places, err = parsePlaces("../../hradec/migrations/csvs/Zámky_3381043052573979413.csv",
+	// 	"PAMATKY",
+	// 	0, 19, toPtr(1), 0, 15, 4, 8, 18, 17, 10, 11, nil, nil, nil, nil, nil, nil)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// result = append(result, places...)
+	// return result, nil
 }
 
 func toPtr[T any](x T) *T {

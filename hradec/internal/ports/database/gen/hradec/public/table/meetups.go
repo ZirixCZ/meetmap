@@ -17,11 +17,21 @@ type meetupsTable struct {
 	postgres.Table
 
 	// Columns
-	ID      postgres.ColumnInteger
-	PlaceID postgres.ColumnString
-	Time    postgres.ColumnTimestamp
-	Name    postgres.ColumnString
-	UserID  postgres.ColumnInteger
+	ID                  postgres.ColumnInteger
+	Name                postgres.ColumnString
+	Description         postgres.ColumnString
+	Date                postgres.ColumnDate
+	BeginTime           postgres.ColumnTime
+	EndTime             postgres.ColumnTime
+	Point               postgres.ColumnString
+	Lat                 postgres.ColumnFloat
+	Lon                 postgres.ColumnFloat
+	Public              postgres.ColumnBool
+	MinAge              postgres.ColumnInteger
+	MaxAge              postgres.ColumnInteger
+	RequireVerification postgres.ColumnBool
+	CreatedBy           postgres.ColumnInteger
+	Type                postgres.ColumnString
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -62,24 +72,44 @@ func newMeetupsTable(schemaName, tableName, alias string) *MeetupsTable {
 
 func newMeetupsTableImpl(schemaName, tableName, alias string) meetupsTable {
 	var (
-		IDColumn       = postgres.IntegerColumn("id")
-		PlaceIDColumn  = postgres.StringColumn("place_id")
-		TimeColumn     = postgres.TimestampColumn("time")
-		NameColumn     = postgres.StringColumn("name")
-		UserIDColumn   = postgres.IntegerColumn("user_id")
-		allColumns     = postgres.ColumnList{IDColumn, PlaceIDColumn, TimeColumn, NameColumn, UserIDColumn}
-		mutableColumns = postgres.ColumnList{PlaceIDColumn, TimeColumn, NameColumn, UserIDColumn}
+		IDColumn                  = postgres.IntegerColumn("id")
+		NameColumn                = postgres.StringColumn("name")
+		DescriptionColumn         = postgres.StringColumn("description")
+		DateColumn                = postgres.DateColumn("date")
+		BeginTimeColumn           = postgres.TimeColumn("begin_time")
+		EndTimeColumn             = postgres.TimeColumn("end_time")
+		PointColumn               = postgres.StringColumn("point")
+		LatColumn                 = postgres.FloatColumn("lat")
+		LonColumn                 = postgres.FloatColumn("lon")
+		PublicColumn              = postgres.BoolColumn("public")
+		MinAgeColumn              = postgres.IntegerColumn("min_age")
+		MaxAgeColumn              = postgres.IntegerColumn("max_age")
+		RequireVerificationColumn = postgres.BoolColumn("require_verification")
+		CreatedByColumn           = postgres.IntegerColumn("created_by")
+		TypeColumn                = postgres.StringColumn("type")
+		allColumns                = postgres.ColumnList{IDColumn, NameColumn, DescriptionColumn, DateColumn, BeginTimeColumn, EndTimeColumn, PointColumn, LatColumn, LonColumn, PublicColumn, MinAgeColumn, MaxAgeColumn, RequireVerificationColumn, CreatedByColumn, TypeColumn}
+		mutableColumns            = postgres.ColumnList{NameColumn, DescriptionColumn, DateColumn, BeginTimeColumn, EndTimeColumn, PointColumn, LatColumn, LonColumn, PublicColumn, MinAgeColumn, MaxAgeColumn, RequireVerificationColumn, CreatedByColumn, TypeColumn}
 	)
 
 	return meetupsTable{
 		Table: postgres.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:      IDColumn,
-		PlaceID: PlaceIDColumn,
-		Time:    TimeColumn,
-		Name:    NameColumn,
-		UserID:  UserIDColumn,
+		ID:                  IDColumn,
+		Name:                NameColumn,
+		Description:         DescriptionColumn,
+		Date:                DateColumn,
+		BeginTime:           BeginTimeColumn,
+		EndTime:             EndTimeColumn,
+		Point:               PointColumn,
+		Lat:                 LatColumn,
+		Lon:                 LonColumn,
+		Public:              PublicColumn,
+		MinAge:              MinAgeColumn,
+		MaxAge:              MaxAgeColumn,
+		RequireVerification: RequireVerificationColumn,
+		CreatedBy:           CreatedByColumn,
+		Type:                TypeColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

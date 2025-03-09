@@ -20,4 +20,6 @@ type Users struct {
 	CreatedAt         time.Time
 	UpdatedAt         time.Time
 	Email             string
+	Age               int32
+	AgeVerified       bool
 }

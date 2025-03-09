@@ -49,13 +49,19 @@ func setupService(configuration *config.Config) (*HradecServerComponents, error)
 		return nil, err
 	}
 	tokenGenerator := tokens.NewTokenGenerator(configuration.JWTConfig.Signature, configuration.JWTConfig.Expiration)
+
 	placeStore := database.NewDatabasePlaceStore(dbconn)
 	userStore := database.NewUserDatabaseStore(dbconn)
+	meetupStore := database.NewMeetupDatabaseStore(dbconn)
+
 	userUsecase := usecases.NewUserUsecase(userStore, configuration.HashConfig.Salt)
 	placeUsecase := usecases.NewPlaceUsecase(placeStore)
 	authUsecase := usecases.NewAuthUsecase(userUsecase, tokenGenerator)
+	meetupUsecase := usecases.NewMeetupUsecase(meetupStore)
+
 	userHandler := handlers.NewUserHandler(userUsecase, authUsecase)
 	placeHandler := handlers.NewPlaceHandler(placeUsecase)
+	meetupHandler := handlers.NewMeetupHandler(meetupUsecase)
 
 	router := mux.NewRouter()
 	router.Use(middleware.Authentication(authUsecase))
@@ -63,10 +69,19 @@ func setupService(configuration *config.Config) (*HradecServerComponents, error)
 	router.Handle("/places", placeHandler.GetPlacesByViewport()).Methods("POST")
 	router.Handle("/login", userHandler.Login()).Methods("POST")
 	router.Handle("/users", userHandler.GetUsersByUsernamePattern()).Methods("GET")
-	router.Handle("/users-create", userHandler.CreateUser()).Methods("PUT")
+	router.Handle("/users-create", userHandler.CreateUser()).Methods("POST")
+	router.Handle("/user-info", userHandler.GetUserInfo()).Methods("GET")
+	router.Handle("/add-friend", userHandler.AddFriend()).Methods("POST")
+	router.Handle("/friend-requests", userHandler.GetFriendRequests()).Methods("GET")
+	router.Handle("/accept-friend", userHandler.AcceptFriend()).Methods("POST")
+	router.Handle("/decline-friend", userHandler.DeclineFriend()).Methods("POST")
+	router.Handle("/get-friends", userHandler.GetFriends()).Methods("GET")
+	router.Handle("/create-meetup", meetupHandler.CreateMeetup()).Methods("POST")
+	router.Handle("/get-meetups", meetupHandler.GetMeetups()).Methods("GET")
+	router.Handle("/accept-meetup", meetupHandler.AcceptMeetup()).Methods("POST")
 	corsMiddleware := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
-		AllowedHeaders:   []string{"*"},
+		AllowedOrigins:   []string{"*", "http://localhost:3000"},
+		AllowedHeaders:   []string{"*", "Content-Type", "Authorization"},
 		AllowCredentials: true,
 	})
 

@@ -1,0 +1,38 @@
+-- +goose Up
+-- +goose StatementBegin
+CREATE EXTENSION IF NOT EXISTS postgis;
+
+ALTER TABLE meetups
+
+DROP COLUMN IF EXISTS place_id,
+DROP COLUMN IF EXISTS time,
+DROP COLUMN IF EXISTS user_id,
+
+ADD IF NOT EXISTS description VARCHAR(1024),
+ADD IF NOT EXISTS date DATE NOT NULL,
+ADD IF NOT EXISTS begin_time TIME NOT NULL,
+ADD IF NOT EXISTS end_time TIME NOT NULL,
+ADD IF NOT EXISTS public BOOLEAN NOT NULL,
+ADD IF NOT EXISTS min_age INT NOT NULL,
+ADD IF NOT EXISTS max_age INT NOT NULL,
+ADD IF NOT EXISTS require_verification BOOLEAN NOT NULL,
+
+ADD IF NOT EXISTS lat DOUBLE PRECISION,
+ADD IF NOT EXISTS lon DOUBLE PRECISION,
+ADD IF NOT EXISTS point GEOMETRY(Point, 4326);
+
+CREATE OR REPLACE TRIGGER update_mettup_point
+BEFORE INSERT OR UPDATE ON meetups
+FOR EACH ROW
+EXECUTE FUNCTION update_point_column();
+
+
+ALTER TABLE users
+ADD IF NOT EXISTS age INT NOT NULL DEFAULT 69,
+ADD IF NOT EXISTS age_verified BOOLEAN NOT NULL DEFAULT false;
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+SELECT 'down SQL query';
+-- +goose StatementEnd
