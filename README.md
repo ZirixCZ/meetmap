@@ -2,7 +2,7 @@
 
 > Won second place on the "HackujStat" Hackathon organized by the NKÚ.
 
-# FriendsHK
+# Meet.Map (previously FriendsHK)
 Application lets you plan trips, share them with friends and have a great time. Powered by [Data KHK](https://www.datakhk.cz/).
 
 ### Homepage
@@ -34,11 +34,10 @@ Application lets you plan trips, share them with friends and have a great time. 
 
 ### Place overview
 
+
 <img width="684" alt="Screenshot 2024-10-17 at 23 01 17" src="https://github.com/user-attachments/assets/e50dcb61-5cec-4736-a829-5fd6def14bfe">
 <img width="685" alt="Screenshot 2024-10-17 at 23 02 11" src="https://github.com/user-attachments/assets/909a7292-0590-4c16-9c54-7c8170f4fdc3">
 
 ### Proof of concept:
 
-https://github.com/user-attachments/assets/f5257637-0a69-4dcc-9601-092a633dda29
-
-> Designed and programmed in around 5 hours
+https://github.com/user-attachments/assets/f20510d0-f852-4922-9cb0-ff5264f59f3d
