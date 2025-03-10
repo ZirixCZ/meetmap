@@ -1,5 +1,7 @@
 > Won third place on the Hradec Králové Hackathon organised by UHK.
 
+> Won second place on the "HackujStat" Hackathon organized by the NKÚ.
+
 # FriendsHK
 Application lets you plan trips, share them with friends and have a great time. Powered by [Data KHK](https://www.datakhk.cz/).
 
